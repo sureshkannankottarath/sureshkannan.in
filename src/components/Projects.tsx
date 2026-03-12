@@ -2,23 +2,7 @@ import { AnimatedSection } from "./ui/AnimatedSection";
 import { GlassCard } from "./ui/GlassCard";
 import { PillTag } from "./ui/PillTag";
 
-const projects = [
-    {
-        title: "L1 AI Agent",
-        description: "Internal AI support agent for Bobcares L1 teams. ChromaDB + Qwen RAG pipeline handling 14 control panel domains.",
-        tags: ["RAG", "Python", "ChromaDB", "Qwen"],
-    },
-    {
-        title: "Smart Search V3",
-        description: "Perplexity-style full-page AI search experience for Bobcares.com with intent detection, complexity scoring, and clarification engine.",
-        tags: ["Next.js", "OpenAI", "FastAPI", "Semantic Search"],
-    },
-    {
-        title: "AI VAPT Platform",
-        description: "Automated vulnerability assessment platform with Docker-isolated tool runners, Celery/Redis orchestration, and AI-generated reports.",
-        tags: ["FastAPI", "Docker", "Celery", "Security"],
-    }
-];
+import projects from "../data/projects.json";
 
 export function Projects() {
     return (
