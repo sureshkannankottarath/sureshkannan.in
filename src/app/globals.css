@@ -59,6 +59,20 @@
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
+
+  .animate-particle {
+    animation: particle linear infinite alternate;
+  }
+}
+
+@keyframes particle {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(var(--tx, 100px), var(--ty, 100px));
+  }
 }
 
 @keyframes fadeUp {
