@@ -1,150 +1,84 @@
 import { AnimatedSection } from "./ui/AnimatedSection";
+import { Cormorant_Garamond } from "next/font/google";
+
+const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
 
 export function Experience() {
     return (
-        <section id="experience" className="py-24 relative">
-            <div className="max-w-4xl mx-auto px-6">
-                <AnimatedSection>
-                    <div className="text-center mb-20">
-                        <h2 className="text-3xl md:text-5xl font-bold font-syne mb-4">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-text-primary to-accent-blue">
-                                Experience
-                            </span>
+        <section id="experience" className="py-24 relative bg-[#FAFAFA] border-t border-black/5">
+            <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row gap-16 md:gap-24 items-start">
+
+                {/* Left Column: Huge Editorial Header */}
+                <div className="w-full md:w-1/3 sticky top-32">
+                    <AnimatedSection>
+                        <h2 className="text-[5rem] lg:text-[7rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-4">
+                            CAREER
+                            <br />
+                            <span className={`text-[4rem] lg:text-[6rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>path.</span>
                         </h2>
-                        <div className="h-1 w-24 bg-accent-blue mx-auto rounded-full opacity-50"></div>
-                    </div>
-                </AnimatedSection>
-
-                <div className="relative border-l border-black/10 ml-4 md:ml-0 md:border-none">
-                    {/* Central Line for Desktop */}
-                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-black/10 to-transparent -translate-x-1/2" />
-
-                    {/* Timeline Item */}
-                    <AnimatedSection delayMs={100} className="relative mb-12">
-                        {/* Experience 1 */}
-                        <div className="md:flex items-center justify-between w-full mb-12">
-                            <div className="hidden md:block w-5/12 text-right pr-8">
-                                <span className="text-accent-blue font-mono text-sm tracking-wider bg-accent-blue/10 px-4 py-1.5 rounded-full border border-accent-blue/20">
-                                    2020 – Present
-                                </span>
-                            </div>
-
-                            <div className="absolute left-[-5px] md:static md:left-auto w-4 h-4 rounded-full bg-bg-primary border-2 border-accent-blue shadow-[0_0_15px_rgba(10,132,255,0.5)] z-10 mx-auto" />
-
-                            <div className="md:hidden block pl-8 mb-4">
-                                <span className="text-accent-blue font-mono text-sm tracking-wider">
-                                    2020 – Present
-                                </span>
-                            </div>
-
-                            <div className="w-full md:w-5/12 pl-8 md:pl-0 md:text-left">
-                                <div className="glass-card p-6 rounded-2xl border-black/5 hover:border-accent-blue/30 transition-colors group">
-                                    <h4 className="text-accent-green mb-4 text-sm font-medium border-b border-black/10 pb-2">
-                                        Bobcares / Poornam Info Vision
-                                    </h4>
-
-                                    <div className="mb-4">
-                                        <h3 className="text-xl font-syne font-semibold text-text-primary mb-1">
-                                            AI Engineer & PM
-                                        </h3>
-                                        <span className="text-xs text-text-muted">Jan 2022 - Present</span>
-                                        <p className="text-text-muted text-sm leading-relaxed mt-2">
-                                            Building AI-powered support systems, semantic search, and LLM infrastructure for a global managed hosting company. Leading teams to deploy scalable intelligent systems.
-                                        </p>
-                                    </div>
-
-                                    <div className="mb-2">
-                                        <h3 className="text-xl font-syne font-semibold text-text-primary mb-1">
-                                            Software Engineer
-                                        </h3>
-                                        <span className="text-xs text-text-muted">Feb 2020 - Dec 2021</span>
-                                        <p className="text-text-muted text-sm leading-relaxed mt-2">
-                                            Developed secure and resilient web applications. Focused on backend automation using Python and cloud deployments.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Experience 2 */}
-                        <div className="md:flex items-center justify-between w-full mb-12">
-                            <div className="hidden md:block w-5/12 text-right pr-8 md:text-left md:order-3 md:pl-8 md:pr-0">
-                                <span className="text-text-muted font-mono text-sm tracking-wider bg-black/5 px-4 py-1.5 rounded-full border border-black/10">
-                                    2019 – 2020
-                                </span>
-                            </div>
-
-                            <div className="absolute left-[-5px] md:static md:left-auto w-4 h-4 rounded-full bg-bg-primary border-2 border-text-muted z-10 mx-auto md:order-2" />
-
-                            <div className="md:hidden block pl-8 mb-4">
-                                <span className="text-text-muted font-mono text-sm tracking-wider">
-                                    2019 – 2020
-                                </span>
-                            </div>
-
-                            <div className="w-full md:w-5/12 pl-8 md:pl-0 md:text-right md:order-1 md:pr-8">
-                                <div className="glass-card p-6 rounded-2xl border-black/5 hover:border-black/20 transition-colors group">
-                                    <h4 className="text-accent-green mb-4 text-sm font-medium border-b border-black/10 pb-2">
-                                        TechNova Solutions
-                                    </h4>
-
-                                    <div className="mb-2">
-                                        <h3 className="text-xl font-syne font-semibold text-text-primary mb-1">
-                                            Full Stack Developer
-                                        </h3>
-                                        <p className="text-text-muted text-sm leading-relaxed mt-2">
-                                            Built end-to-end data analytics and monitoring dashboards using React and Node.js.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Experience 3 */}
-                        <div className="md:flex items-center justify-between w-full mb-12">
-                            <div className="hidden md:block w-5/12 text-right pr-8">
-                                <span className="text-text-muted font-mono text-sm tracking-wider bg-black/5 px-4 py-1.5 rounded-full border border-black/10">
-                                    2017 – 2018
-                                </span>
-                            </div>
-
-                            <div className="absolute left-[-5px] md:static md:left-auto w-4 h-4 rounded-full bg-bg-primary border-2 border-text-muted z-10 mx-auto" />
-
-                            <div className="md:hidden block pl-8 mb-4">
-                                <span className="text-text-muted font-mono text-sm tracking-wider">
-                                    2017 – 2018
-                                </span>
-                            </div>
-
-                            <div className="w-full md:w-5/12 pl-8 md:pl-0 md:text-left">
-                                <div className="glass-card p-6 rounded-2xl border-black/5 hover:border-black/20 transition-colors group">
-                                    <h4 className="text-accent-green mb-4 text-sm font-medium border-b border-black/10 pb-2">
-                                        InitVentures
-                                    </h4>
-
-                                    <div className="mb-4">
-                                        <h3 className="text-xl font-syne font-semibold text-text-primary mb-1">
-                                            Junior Developer
-                                        </h3>
-                                        <span className="text-xs text-text-muted">Jan 2018 - Dec 2018</span>
-                                        <p className="text-text-muted text-sm leading-relaxed mt-2">
-                                            Assisted in migrating legacy systems to microservices architecture.
-                                        </p>
-                                    </div>
-
-                                    <div className="mb-2">
-                                        <h3 className="text-xl font-syne font-semibold text-text-primary mb-1">
-                                            Intern
-                                        </h3>
-                                        <span className="text-xs text-text-muted">Jul 2017 - Dec 2017</span>
-                                        <p className="text-text-muted text-sm leading-relaxed mt-2">
-                                            Started out in QA and automated web testing.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </AnimatedSection>
+                </div>
+
+                {/* Right Column: Content */}
+                <div className="w-full md:w-2/3">
+                    <div className="space-y-16">
+                        <AnimatedSection delayMs={100}>
+                            <div className="relative group">
+                                <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-4">
+                                    <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">Bobcares</h3>
+                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2020 – Present</span>
+                                </div>
+                                <div className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500"></div>
+
+                                <div className="space-y-8">
+                                    <div>
+                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">AI Engineer & PM <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">2022 - Present</span></h4>
+                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Building AI-powered support systems, semantic search, and LLM infrastructure for a global managed hosting company. Leading teams to deploy scalable intelligent systems.</p>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Software Engineer <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">2020 - 2021</span></h4>
+                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Developed secure and resilient web applications. Focused on backend automation using Python and cloud deployments.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </AnimatedSection>
+
+                        <AnimatedSection delayMs={200}>
+                            <div className="relative group">
+                                <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-4">
+                                    <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">TechNova Solutions</h3>
+                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2019 – 2020</span>
+                                </div>
+                                <div className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500"></div>
+
+                                <div>
+                                    <h4 className="text-xl font-semibold text-[#18181B] mb-2">Full Stack Developer</h4>
+                                    <p className="text-[#71717A] text-base leading-relaxed font-medium">Built end-to-end data analytics and monitoring dashboards using React and Node.js.</p>
+                                </div>
+                            </div>
+                        </AnimatedSection>
+
+                        <AnimatedSection delayMs={300}>
+                            <div className="relative group">
+                                <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-4">
+                                    <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">InitVentures</h3>
+                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2017 – 2018</span>
+                                </div>
+                                <div className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500"></div>
+
+                                <div className="space-y-8">
+                                    <div>
+                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Junior Developer <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">2018 - 2018</span></h4>
+                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Assisted in migrating legacy systems to microservices architecture.</p>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Intern QA <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">2017 - 2017</span></h4>
+                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Started out in QA and automated web testing.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </AnimatedSection>
+                    </div>
                 </div>
             </div>
         </section>

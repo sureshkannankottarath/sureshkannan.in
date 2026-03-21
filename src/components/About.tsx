@@ -1,5 +1,7 @@
 import { AnimatedSection } from "./ui/AnimatedSection";
-import { PillTag } from "./ui/PillTag";
+import { Cormorant_Garamond } from "next/font/google";
+
+const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
 
 const skills = [
     "Python", "FastAPI", "React", "Next.js", "ChromaDB",
@@ -8,45 +10,41 @@ const skills = [
 
 export function About() {
     return (
-        <section id="about" className="py-24 relative">
-            <div className="max-w-7xl mx-auto px-6">
-                <AnimatedSection>
-                    <h2 className="text-3xl md:text-5xl font-bold font-syne mb-16 inline-block">
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-text-primary to-text-muted">
-                            About Me
-                        </span>
-                        <div className="h-1 w-1/3 bg-accent-blue mt-2 rounded-full opacity-50"></div>
-                    </h2>
-                </AnimatedSection>
+        <section id="about" className="py-24 relative bg-[#FAFAFA] border-t border-black/5">
+            <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row gap-16 md:gap-24 items-start">
 
-                <div className="grid md:grid-cols-2 gap-16 items-center">
+                {/* Left Column: Huge Editorial Header */}
+                <div className="w-full md:w-1/3">
+                    <AnimatedSection>
+                        <h2 className="text-[5rem] lg:text-[7rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-4">
+                            ABOUT
+                            <br />
+                            <span className={`text-[4rem] lg:text-[6rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>me.</span>
+                        </h2>
+                    </AnimatedSection>
+                </div>
+
+                {/* Right Column: Content */}
+                <div className="w-full md:w-2/3">
                     <AnimatedSection delayMs={100}>
-                        <div className="space-y-6 text-lg text-text-muted leading-relaxed font-light">
+                        <div className="space-y-8 text-xl md:text-3xl text-[#18181B] leading-tight font-medium font-sans">
                             <p>
-                                I&apos;m a Kerala-based AI Engineer building production RAG systems and
-                                AI agents. I bridge the gap between model research and real-world
-                                deployment — from LLM pipelines to full-stack product delivery.
+                                I am an AI Engineer & Project Manager based in Kerala, architecting intelligent systems that bridge the gap between applied research and real-world deployment.
                             </p>
-                            <p>
-                                Currently, I work as an AI Engineer & Project Manager at Bobcares,
-                                where I architect intelligent systems that solve complex support and
-                                operational challenges.
+                            <p className="text-[#71717A]">
+                                I specialize in LLM pipelines, semantic search, and robust full-stack product delivery, solving complex operational challenges.
                             </p>
                         </div>
                     </AnimatedSection>
 
                     <AnimatedSection delayMs={200}>
-                        <div className="glass-card p-8 rounded-2xl relative overflow-hidden group border-black/5">
-                            {/* Subtle accent glow */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-accent-green/10 blur-[50px] rounded-full translate-x-1/2 -translate-y-1/2 group-hover:bg-accent-green/20 transition-colors duration-500" />
-
-                            <h3 className="text-xl font-syne font-medium text-text-primary mb-6 relative z-10">
-                                Core Stack
-                            </h3>
-
-                            <div className="flex flex-wrap gap-3 relative z-10">
+                        <div className="pt-12 mt-12 border-t border-black/10">
+                            <h3 className="text-sm font-bold text-[#18181B] uppercase tracking-wider mb-6">Core Arsenal</h3>
+                            <div className="flex flex-wrap gap-2 md:gap-3">
                                 {skills.map((skill) => (
-                                    <PillTag key={skill}>{skill}</PillTag>
+                                    <div key={skill} className="px-5 py-2.5 rounded-full border border-black/10 text-xs md:text-sm font-semibold text-[#18181B] hover:bg-black hover:text-white transition-colors cursor-default">
+                                        {skill}
+                                    </div>
                                 ))}
                             </div>
                         </div>
