@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Brain, Blocks, Database, Code2, ShieldCheck } from "lucide-react";
+import { Cormorant_Garamond } from "next/font/google";
 import { AnimatedSection } from "./ui/AnimatedSection";
+
+const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
 
 export function Hero() {
     const [mounted, setMounted] = useState(false);
@@ -13,127 +15,71 @@ export function Hero() {
     }, []);
 
     return (
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-24 md:py-32">
-            {/* Background CSS Particles */}
-            {mounted && (
-                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                    {[...Array(40)].map((_, i) => {
-                        const size = Math.random() * 3 + 1;
-                        const startX = Math.random() * 100;
-                        const startY = Math.random() * 100;
-                        const duration = Math.random() * 20 + 20;
-                        const delay = Math.random() * -40;
-                        const alpha = Math.random() * 0.5 + 0.1;
+        <section
+            className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-20 px-4 md:px-8"
+            style={{ background: 'radial-gradient(ellipse at center, #BAE6FD 0%, #FAFAFA 60%, #FAFAFA 100%)' }}
+        >
 
-                        return (
-                            <div
-                                key={i}
-                                className="absolute rounded-full bg-accent-blue animate-particle"
-                                style={{
-                                    width: `${size}px`,
-                                    height: `${size}px`,
-                                    left: `${startX}%`,
-                                    top: `${startY}%`,
-                                    opacity: alpha,
-                                    animationDuration: `${duration}s`,
-                                    animationDelay: `${delay}s`,
-                                    "--tx": `${(Math.random() - 0.5) * 40}vw`,
-                                    "--ty": `${(Math.random() - 0.5) * 40}vh`
-                                } as React.CSSProperties}
-                            />
-                        );
-                    })}
+            {/* Stable Layout Wrapper - Ensures alignment never breaks on weird screen heights */}
+            <div className="relative w-full max-w-[1400px] h-[850px] mx-auto flex-shrink-0">
+
+                {/* Top Text: "Hey, there" */}
+                <div className="absolute top-[180px] md:top-[160px] w-full flex justify-center items-center gap-6 md:gap-[120px] lg:gap-[200px] z-0 pointer-events-none">
+                    <AnimatedSection delayMs={100}>
+                        <span className={`text-[25vw] sm:text-[8rem] lg:text-[11rem] text-[#18181B] transform -rotate-2 inline-block tracking-tighter leading-none ${cormorant.className} font-light`}>
+                            Hey,
+                        </span>
+                    </AnimatedSection>
+                    <AnimatedSection delayMs={200}>
+                        <span className={`text-[25vw] sm:text-[8rem] lg:text-[11rem] text-[#18181B] transform -rotate-1 inline-block tracking-tighter leading-none ${cormorant.className} font-light`}>
+                            there
+                        </span>
+                    </AnimatedSection>
                 </div>
-            )}
 
-            {/* Ambient Orbs */}
-            <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-accent-blue/20 rounded-full blur-[120px] -z-10 animate-float" />
-            <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-accent-green/20 rounded-full blur-[100px] -z-10 animate-float" style={{ animationDelay: "2s" }} />
+                {/* Central Portrait Image - Upscaled to interact with typography */}
+                <AnimatedSection delayMs={300} className="absolute left-1/2 bottom-0 -translate-x-1/2 z-10 w-[120%] md:w-[800px] lg:w-[1000px] h-[60%] md:h-[800px] pointer-events-none transform scale-110 md:scale-[1.3] origin-bottom">
+                    <Image
+                        src="/images/me2.png"
+                        alt="Suresh Kannan K"
+                        fill
+                        priority
+                        className="object-contain object-bottom"
+                    />
+                </AnimatedSection>
 
-            <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-                <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-12 md:gap-8">
+                {/* Bottom White Fog Gradient - Applied exactly over the portrait base (z-[15]) */}
+                <div className="absolute bottom-0 left-0 right-0 h-40 md:h-64 bg-gradient-to-t from-[#FAFAFA] to-transparent z-[15] pointer-events-none" />
 
-                    {/* Left: Text Content */}
-                    <div className="flex-1 text-center md:text-left">
-                        <AnimatedSection delayMs={100}>
-                            <p className="text-accent-blue font-mono mb-4 text-sm md:text-base tracking-wider uppercase">
-                                Hey, I&apos;m
-                            </p>
-                        </AnimatedSection>
+                {/* Middle Floating Overlays */}
+                <div className="absolute top-[600px] md:top-[500px] w-full px-4 md:px-12 flex flex-col items-end z-20 pointer-events-none">
 
-                        <AnimatedSection delayMs={180}>
-                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-syne tracking-tighter mb-6">
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-text-primary via-accent-blue to-accent-green animate-shimmer">
-                                    Suresh Kannan K
-                                </span>
-                            </h1>
-                        </AnimatedSection>
+                    {/* Description - Right Edge */}
+                    <AnimatedSection delayMs={500} className="max-w-[260px] md:max-w-[320px] text-right pointer-events-auto">
+                        <p className="text-xs md:text-sm font-semibold text-black leading-snug font-sans opacity-90">
+                            Specialized in AI Engineering, <br className="hidden md:block" />
+                            Semantic Search, RAG Pipelines, <br className="hidden md:block" />
+                            and Intelligent Systems.
+                        </p>
+                    </AnimatedSection>
+                </div>
 
-                        <AnimatedSection delayMs={260}>
-                            <p className="text-xl md:text-2xl text-text-muted font-light max-w-2xl mx-auto md:mx-0 mb-8">
-                                AI Engineer · PM · <span className="text-text-primary">Builder of intelligent systems</span>
-                            </p>
-                        </AnimatedSection>
+                {/* Bottom Titles - Locked to exact bottom of wrapper */}
+                <div className="absolute bottom-4 md:bottom-12 w-full flex flex-col md:flex-row justify-between items-end z-20 pointer-events-none px-4 md:px-0">
 
-                        <AnimatedSection delayMs={340}>
-                            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 sm:gap-6 mb-12">
-                                <a
-                                    href="#projects"
-                                    className="px-8 py-3 rounded-full bg-accent-blue text-white hover:bg-accent-blue/90 font-medium transition-all hover:scale-105 active:scale-95 shadow-md shadow-accent-blue/20"
-                                >
-                                    View My Work
-                                </a>
-                                <a
-                                    href="#contact"
-                                    className="px-8 py-3 rounded-full border border-black/10 hover:border-accent-blue text-text-primary hover:bg-accent-blue/5 font-medium transition-all hover:scale-105 active:scale-95"
-                                >
-                                    Let&apos;s Connect
-                                </a>
-                            </div>
-                        </AnimatedSection>
+                    <AnimatedSection delayMs={600}>
+                        <div className="text-left font-sans font-black tracking-tighter leading-[0.8] text-[#18181B]">
+                            <h1 className="text-[20vw] md:text-[6.5rem] lg:text-[9rem] uppercase">I AM</h1>
+                            <h1 className="text-[20vw] md:text-[6.5rem] lg:text-[9rem] uppercase">SURESH</h1>
+                        </div>
+                    </AnimatedSection>
 
-                        {/* Skills Section inside Hero */}
-                        <AnimatedSection delayMs={420}>
-                            <div className="pt-8 border-t border-black/5 inline-block">
-                                <p className="text-sm font-medium text-text-muted uppercase tracking-wider mb-4">Core Expertise</p>
-                                <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                                    {[
-                                        { name: "Enterprise AI", icon: Brain },
-                                        { name: "System Architecture", icon: Blocks },
-                                        { name: "RAG & LLM", icon: Database },
-                                        { name: "Full-Stack Setup", icon: Code2 },
-                                        { name: "Cybersecurity", icon: ShieldCheck }
-                                    ].map((skill, index) => {
-                                        const Icon = skill.icon;
-                                        return (
-                                            <div key={index} className="flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-black/5 text-sm font-medium text-text-primary group hover:border-accent-blue/50 transition-colors bg-black/5 backdrop-blur-sm">
-                                                <Icon className="w-4 h-4 text-accent-blue group-hover:text-accent-green transition-colors" />
-                                                <span>{skill.name}</span>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                        </AnimatedSection>
-                    </div>
-
-                    {/* Right: Profile Image */}
-                    <div className="flex-1 w-full max-w-sm md:max-w-md lg:max-w-lg mb-8 md:mb-0">
-                        <AnimatedSection delayMs={200}>
-                            <div className="relative aspect-square w-full rounded-[2rem] overflow-hidden glass-card border border-black/10 p-2 shadow-2xl">
-                                <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/20 to-accent-green/20 animate-pulse pointer-events-none rounded-[2rem]"></div>
-                                <div className="relative w-full h-full rounded-3xl overflow-hidden border border-black/5 bg-bg-secondary">
-                                    <Image
-                                        src="/images/profile.png"
-                                        alt="Suresh Kannan K - AI Engineer"
-                                        fill
-                                        priority
-                                        className="object-cover transition-transform duration-700 hover:scale-105"
-                                    />
-                                </div>
-                            </div>
-                        </AnimatedSection>
-                    </div>
+                    <AnimatedSection delayMs={700}>
+                        <div className="text-right font-sans font-black tracking-tighter leading-[0.8] text-[#18181B] mt-8 md:mt-0 pb-1 md:pb-3">
+                            <h2 className="text-[10vw] md:text-[4rem] lg:text-[5.5rem] uppercase">AI PRODUCT</h2>
+                            <h2 className="text-[10vw] md:text-[4rem] lg:text-[5.5rem] uppercase">ENGINEER</h2>
+                        </div>
+                    </AnimatedSection>
 
                 </div>
             </div>
