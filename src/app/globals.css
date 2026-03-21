@@ -106,33 +106,3 @@
     transform: translateY(0px);
   }
 }
-
-/* Custom Cursor */
-.custom-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 32px;
-  height: 32px;
-  border: 2px solid var(--accent-blue);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s, height 0.2s, background-color 0.2s;
-  box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
-}
-
-.custom-cursor.hovering {
-  width: 48px;
-  height: 48px;
-  background-color: rgba(0, 212, 255, 0.1);
-  border-color: var(--accent-green);
-  box-shadow: 0 0 20px rgba(0, 255, 179, 0.5);
-}
-
-@media (max-width: 768px) {
-  .custom-cursor {
-    display: none;
-  }
-}
