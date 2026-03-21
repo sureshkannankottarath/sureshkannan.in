@@ -21,9 +21,12 @@ export function Nav() {
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 30);
+            const container = document.getElementById("main-scroll");
+            if (!container) return;
 
-            // Active section detection
+            setIsScrolled(container.scrollTop > 30);
+
+            // Active section detection via viewport intersecting bounds
             const sections = ["about", "projects", "experience", "contact"];
             let current = "";
 
@@ -31,8 +34,8 @@ export function Nav() {
                 const element = document.getElementById(section);
                 if (element) {
                     const rect = element.getBoundingClientRect();
-                    // If section is upper middle of screen
-                    if (rect.top <= 120 && rect.bottom >= 120) {
+                    // If section bounds dominate the center of the vertical viewport
+                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
                         current = section;
                         break;
                     }
@@ -41,10 +44,17 @@ export function Nav() {
             setActiveSection(current);
         };
 
-        window.addEventListener("scroll", handleScroll);
-        // Run once on mount to set initial state
-        handleScroll();
-        return () => window.removeEventListener("scroll", handleScroll);
+        const container = document.getElementById("main-scroll");
+        if (container) {
+            container.addEventListener("scroll", handleScroll);
+            handleScroll();
+        }
+
+        return () => {
+            if (container) {
+                container.removeEventListener("scroll", handleScroll);
+            }
+        };
     }, []);
 
     return (
