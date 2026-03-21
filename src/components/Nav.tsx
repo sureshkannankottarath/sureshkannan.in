@@ -54,9 +54,9 @@ export function Nav() {
                 className="fixed top-0 left-0 right-0 z-50 px-4 pt-4 flex justify-center pointer-events-none"
             >
                 <motion.div
-                    className={`flex items-center justify-between gap-6 px-6 py-3 rounded-full border border-white/5 backdrop-blur-lg pointer-events-auto transition-all duration-300 ${isScrolled
-                        ? "bg-[#080C14]/80 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-white/10"
-                        : "bg-white/5"
+                    className={`flex items-center justify-between gap-6 px-6 py-3 rounded-full border border-black/5 backdrop-blur-lg pointer-events-auto transition-all duration-300 ${isScrolled
+                        ? "bg-bg-primary/80 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-black/10"
+                        : "bg-black/5"
                         }`}
                     style={{
                         boxShadow: isScrolled
@@ -110,8 +110,8 @@ export function Nav() {
                         <a
                             href="#contact"
                             className={`hidden md:block px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 border ${activeSection === "contact"
-                                ? "bg-accent-blue text-[#080C14] border-accent-blue shadow-[0_0_20px_rgba(0,212,255,0.4)]"
-                                : "border-white/10 hover:border-accent-blue text-text-primary hover:bg-accent-blue/10 hover:shadow-[0_0_15px_rgba(0,212,255,0.1)]"
+                                ? "bg-accent-blue text-bg-primary border-accent-blue shadow-[0_0_20px_rgba(0,212,255,0.4)]"
+                                : "border-black/10 hover:border-accent-blue text-text-primary hover:bg-accent-blue/10 hover:shadow-[0_0_15px_rgba(0,212,255,0.1)]"
                                 }`}
                         >
                             Contact
@@ -120,7 +120,7 @@ export function Nav() {
                         {/* Mobile Menu Trigger */}
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="md:hidden flex items-center justify-center p-2 rounded-full bg-white/5 border border-white/10 text-text-primary hover:bg-white/10 transition-colors"
+                            className="md:hidden flex items-center justify-center p-2 rounded-full bg-black/5 border border-black/10 text-text-primary hover:bg-black/10 transition-colors"
                         >
                             <AnimatePresence mode="wait" initial={false}>
                                 {isMenuOpen ? (
@@ -158,7 +158,7 @@ export function Nav() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="fixed inset-0 z-40 bg-[#080C14]/90 backdrop-blur-md md:hidden flex flex-col items-center justify-center gap-8"
+                        className="fixed inset-0 z-40 bg-bg-primary/90 backdrop-blur-md md:hidden flex flex-col items-center justify-center gap-8"
                     >
                         <div className="flex flex-col items-center gap-6">
                             {[...NAV_ITEMS, { label: "Contact", href: "#contact" }].map((item, index) => (

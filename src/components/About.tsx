@@ -36,7 +36,7 @@ export function About() {
                     </AnimatedSection>
 
                     <AnimatedSection delayMs={200}>
-                        <div className="glass-card p-8 rounded-2xl relative overflow-hidden group border-white/5">
+                        <div className="glass-card p-8 rounded-2xl relative overflow-hidden group border-black/5">
                             {/* Subtle accent glow */}
                             <div className="absolute top-0 right-0 w-32 h-32 bg-accent-green/10 blur-[50px] rounded-full translate-x-1/2 -translate-y-1/2 group-hover:bg-accent-green/20 transition-colors duration-500" />
 

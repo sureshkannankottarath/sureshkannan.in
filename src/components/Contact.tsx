@@ -78,7 +78,7 @@ export function Contact() {
                     </div>
                 </AnimatedSection>
 
-                <div className="border-t border-white/5 pt-8 mt-12">
+                <div className="border-t border-black/5 pt-8 mt-12">
                     <p className="text-text-muted text-sm font-light">
                         © 2025 Suresh Kannan K. All rights reserved.
                     </p>

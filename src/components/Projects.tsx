@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { AnimatedSection } from "./ui/AnimatedSection";
 import { GlassCard } from "./ui/GlassCard";
 import { PillTag } from "./ui/PillTag";
@@ -29,6 +30,11 @@ export function Projects() {
                                 <h3 className="text-2xl font-syne font-semibold text-text-primary mb-4 group-hover:text-accent-blue transition-colors">
                                     {project.title}
                                 </h3>
+                                {project.image && (
+                                    <div className="relative w-full h-48 mb-6 rounded-xl overflow-hidden border border-black/5 group-hover:border-accent-blue/30 transition-colors">
+                                        <Image src={project.image} alt={project.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                                    </div>
+                                )}
                                 <p className="text-text-muted text-sm md:text-base mb-8 flex-grow leading-relaxed">
                                     {project.description}
                                 </p>

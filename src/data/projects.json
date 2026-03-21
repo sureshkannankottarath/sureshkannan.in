@@ -2,6 +2,7 @@
     {
         "title": "L1 AI Agent",
         "description": "Internal AI support agent for Bobcares L1 teams. ChromaDB + Qwen RAG pipeline handling 14 control panel domains.",
+        "image": "/images/project_agent.png",
         "tags": [
             "RAG",
             "Python",
@@ -12,6 +13,7 @@
     {
         "title": "Smart Search V3",
         "description": "Perplexity-style full-page AI search experience for Bobcares.com with intent detection, complexity scoring, and clarification engine.",
+        "image": "/images/project_search.png",
         "tags": [
             "Next.js",
             "OpenAI",
@@ -22,6 +24,7 @@
     {
         "title": "AI VAPT Platform",
         "description": "Automated vulnerability assessment platform with Docker-isolated tool runners, Celery/Redis orchestration, and AI-generated reports.",
+        "image": "/images/project_vapt.png",
         "tags": [
             "FastAPI",
             "Docker",

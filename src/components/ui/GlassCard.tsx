@@ -14,7 +14,7 @@ export function GlassCard({ children, className = "", hasTopAccent = false }: Gl
             )}
 
             {/* Shimmer sweep effect */}
-            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:animate-[shimmer-sweep_1.5s_infinite]" />
+            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-black/5 to-transparent group-hover:animate-[shimmer-sweep_1.5s_infinite]" />
 
             <div className="relative z-10 p-6 sm:p-8 h-full flex flex-col">
                 {children}
