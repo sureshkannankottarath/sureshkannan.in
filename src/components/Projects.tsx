@@ -7,8 +7,8 @@ const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"
 
 export function Projects() {
     return (
-        <section id="projects" className="py-24 relative bg-white border-t border-black/5">
-            <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <section id="projects" className="min-h-[100dvh] w-full flex flex-col justify-center relative bg-white border-t border-black/5 snap-start snap-always py-24 md:py-0">
+            <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">
                 <AnimatedSection>
                     <div className="mb-20 text-center">
                         <h2 className="text-[5rem] lg:text-[7rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-4">

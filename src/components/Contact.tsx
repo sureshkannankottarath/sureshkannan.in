@@ -5,8 +5,8 @@ const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"
 
 export function Contact() {
     return (
-        <footer id="contact" className="pt-32 pb-16 relative bg-white border-t border-black/5 overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <footer id="contact" className="min-h-[100dvh] w-full flex flex-col justify-center pt-32 pb-16 relative bg-white border-t border-black/5 overflow-hidden snap-start snap-always">
+            <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">
                 <AnimatedSection>
                     <div className="text-center mb-16">
                         <h2 className="text-[5rem] lg:text-[7rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-4">

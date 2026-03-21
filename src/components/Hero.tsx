@@ -16,7 +16,7 @@ export function Hero() {
 
     return (
         <section
-            className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-20 px-4 md:px-8"
+            className="relative w-full min-h-[100dvh] flex items-center justify-center overflow-hidden pt-20 px-4 md:px-8 snap-start snap-always"
             style={{ background: 'radial-gradient(ellipse at center, #BAE6FD 0%, #FAFAFA 60%, #FAFAFA 100%)' }}
         >
 
@@ -37,13 +37,15 @@ export function Hero() {
                     </AnimatedSection>
                 </div>
 
-                {/* Central Portrait Image - Upscaled to interact with typography */}
-                <AnimatedSection delayMs={300} className="absolute left-1/2 bottom-0 -translate-x-1/2 z-10 w-[120%] md:w-[800px] lg:w-[1000px] h-[60%] md:h-[800px] pointer-events-none transform scale-110 md:scale-[1.3] origin-bottom">
+                {/* Central Portrait Image - Scaled natively for maximum sharpness */}
+                <AnimatedSection delayMs={300} className="absolute left-1/2 bottom-0 -translate-x-1/2 z-10 w-[150%] md:w-[1040px] lg:w-[1300px] h-[75%] md:h-[1000px] pointer-events-none origin-bottom">
                     <Image
                         src="/images/me2.png"
                         alt="Suresh Kannan K"
                         fill
                         priority
+                        quality={100}
+                        sizes="(max-width: 768px) 150vw, (max-width: 1200px) 1040px, 1400px"
                         className="object-contain object-bottom"
                     />
                 </AnimatedSection>

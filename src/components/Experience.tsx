@@ -5,8 +5,8 @@ const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"
 
 export function Experience() {
     return (
-        <section id="experience" className="py-24 relative bg-[#FAFAFA] border-t border-black/5">
-            <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row gap-16 md:gap-24 items-start">
+        <section id="experience" className="min-h-[100dvh] w-full flex flex-col justify-center relative bg-[#FAFAFA] border-t border-black/5 snap-start snap-always py-24 md:py-0">
+            <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex flex-col md:flex-row gap-16 md:gap-24 items-start">
 
                 {/* Left Column: Huge Editorial Header */}
                 <div className="w-full md:w-1/3 sticky top-32">

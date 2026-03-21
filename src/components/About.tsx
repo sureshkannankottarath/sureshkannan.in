@@ -1,17 +1,38 @@
 import { AnimatedSection } from "./ui/AnimatedSection";
 import { Cormorant_Garamond } from "next/font/google";
+import {
+    SiPython,
+    SiFastapi,
+    SiReact,
+    SiNextdotjs,
+    SiOpenai,
+    SiNodedotjs,
+    SiDocker,
+    SiVercel,
+    SiPostgresql
+} from "react-icons/si";
+import { FaDatabase, FaLink } from "react-icons/fa6";
 
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
 
 const skills = [
-    "Python", "FastAPI", "React", "Next.js", "ChromaDB",
-    "OpenAI", "LangChain", "Node.js", "Docker", "Vercel", "PostgreSQL"
+    { name: "Python", Icon: SiPython, color: "#3776AB" },
+    { name: "FastAPI", Icon: SiFastapi, color: "#009688" },
+    { name: "React", Icon: SiReact, color: "#61DAFB" },
+    { name: "Next.js", Icon: SiNextdotjs, color: "#000000" },
+    { name: "ChromaDB", Icon: FaDatabase, color: "#FF5733" },
+    { name: "OpenAI", Icon: SiOpenai, color: "#412991" },
+    { name: "LangChain", Icon: FaLink, color: "#111111" },
+    { name: "Node.js", Icon: SiNodedotjs, color: "#43853D" },
+    { name: "Docker", Icon: SiDocker, color: "#2496ED" },
+    { name: "Vercel", Icon: SiVercel, color: "#000000" },
+    { name: "PostgreSQL", Icon: SiPostgresql, color: "#336791" }
 ];
 
 export function About() {
     return (
-        <section id="about" className="py-24 relative bg-[#FAFAFA] border-t border-black/5">
-            <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row gap-16 md:gap-24 items-start">
+        <section id="about" className="min-h-[100dvh] w-full flex flex-col justify-center relative bg-[#FAFAFA] border-t border-black/5 snap-start snap-always py-24 md:py-0">
+            <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex flex-col md:flex-row gap-16 md:gap-24 items-start">
 
                 {/* Left Column: Huge Editorial Header */}
                 <div className="w-full md:w-1/3">
@@ -42,8 +63,9 @@ export function About() {
                             <h3 className="text-sm font-bold text-[#18181B] uppercase tracking-wider mb-6">Core Arsenal</h3>
                             <div className="flex flex-wrap gap-2 md:gap-3">
                                 {skills.map((skill) => (
-                                    <div key={skill} className="px-5 py-2.5 rounded-full border border-black/10 text-xs md:text-sm font-semibold text-[#18181B] hover:bg-black hover:text-white transition-colors cursor-default">
-                                        {skill}
+                                    <div key={skill.name} className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-black/10 text-xs md:text-sm font-semibold text-[#18181B] bg-white shadow-sm hover:scale-105 hover:shadow-md transition-all cursor-default">
+                                        <skill.Icon style={{ color: skill.color }} className="w-4 h-4" />
+                                        {skill.name}
                                     </div>
                                 ))}
                             </div>
