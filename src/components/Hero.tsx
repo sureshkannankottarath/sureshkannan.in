@@ -40,7 +40,7 @@ export function Hero() {
                 {/* Central Portrait Image - Scaled natively for maximum sharpness */}
                 <AnimatedSection delayMs={300} className="absolute left-1/2 bottom-0 -translate-x-1/2 z-10 w-[150%] md:w-[1040px] lg:w-[1300px] h-[75%] md:h-[1000px] pointer-events-none origin-bottom">
                     <Image
-                        src="/images/me2.png"
+                        src="/images/latest_me.png"
                         alt="Suresh Kannan K"
                         fill
                         priority
