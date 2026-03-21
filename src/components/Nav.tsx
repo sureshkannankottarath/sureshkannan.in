@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { Cormorant_Garamond } from "next/font/google";
+
+const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["400", "500", "600"], style: ["italic", "normal"] });
 
 const NAV_ITEMS = [
     { label: "About", href: "#about" },
@@ -14,7 +17,6 @@ const NAV_ITEMS = [
 export function Nav() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("");
-    const [hoveredItem, setHoveredItem] = useState<string | null>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
@@ -51,68 +53,40 @@ export function Nav() {
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="fixed top-0 left-0 right-0 z-50 px-4 pt-4 flex justify-center pointer-events-none"
+                className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-500 ${isScrolled ? "bg-[#FAFAFA]/95 backdrop-blur-md py-4" : "bg-transparent py-8"
+                    }`}
             >
-                <motion.div
-                    className={`flex items-center justify-between gap-6 px-6 py-3 rounded-full border border-black/5 backdrop-blur-lg pointer-events-auto transition-all duration-300 ${isScrolled
-                        ? "bg-bg-primary/80 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-black/10"
-                        : "bg-black/5"
-                        }`}
-                    style={{
-                        boxShadow: isScrolled
-                            ? "0 0 40px rgba(0, 212, 255, 0.05), inset 0 0 20px rgba(255,255,255,0.02)"
-                            : "none",
-                    }}
-                >
+                <div className="w-full max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
+
+                    {/* Brand Logo - Match Reference Script/Serif Look */}
                     <Link
                         href="/"
-                        className="text-lg md:text-xl font-bold font-syne text-text-primary tracking-tight group flex items-center"
+                        className={`text-2xl md:text-[2rem] text-[#18181B] tracking-tight group flex items-center ${cormorant.className} italic font-semibold`}
                     >
-                        Suresh
-                        <span className="text-accent-blue transition-all duration-300 group-hover:text-accent-green group-hover:drop-shadow-[0_0_8px_rgba(0,255,179,0.5)]">
-                            .
-                        </span>
+                        Suresh.
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center gap-1">
+                    <div className="hidden md:flex items-center gap-12">
                         {NAV_ITEMS.map((item) => (
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                onMouseEnter={() => setHoveredItem(item.href)}
-                                onMouseLeave={() => setHoveredItem(null)}
-                                className={`relative px-4 py-2 text-sm font-medium transition-colors duration-300 rounded-full ${activeSection === item.href.substring(1)
-                                    ? "text-accent-blue font-semibold"
-                                    : "text-text-muted hover:text-text-primary"
+                                className={`text-xs lg:text-sm font-bold uppercase tracking-widest transition-colors duration-300 ${activeSection === item.href.substring(1)
+                                    ? "text-[#18181B]"
+                                    : "text-[#71717A] hover:text-[#18181B]"
                                     }`}
                             >
-                                <span className="relative z-10">{item.label}</span>
-                                {(hoveredItem === item.href || activeSection === item.href.substring(1)) && (
-                                    <motion.span
-                                        layoutId="nav-pill"
-                                        className="absolute inset-0 bg-accent-blue/5 rounded-full border border-accent-blue/15"
-                                        initial={false}
-                                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                                        style={{
-                                            boxShadow: hoveredItem === item.href
-                                                ? "0 0 15px rgba(0, 212, 255, 0.1)"
-                                                : "none"
-                                        }}
-                                    />
-                                )}
+                                {item.label}
                             </Link>
                         ))}
                     </div>
 
                     {/* Contact Button & Mobile Trigger */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-4">
                         <a
                             href="#contact"
-                            className={`hidden md:block px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 border ${activeSection === "contact"
-                                ? "bg-accent-blue text-bg-primary border-accent-blue shadow-[0_0_20px_rgba(0,212,255,0.4)]"
-                                : "border-black/10 hover:border-accent-blue text-text-primary hover:bg-accent-blue/10 hover:shadow-[0_0_15px_rgba(0,212,255,0.1)]"
-                                }`}
+                            className="hidden md:block px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#18181B] text-white hover:scale-105 hover:bg-[#BAE6FD] hover:text-[#18181B]"
                         >
                             Contact
                         </a>
@@ -120,7 +94,7 @@ export function Nav() {
                         {/* Mobile Menu Trigger */}
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="md:hidden flex items-center justify-center p-2 rounded-full bg-black/5 border border-black/10 text-text-primary hover:bg-black/10 transition-colors"
+                            className="md:hidden flex items-center justify-center p-2 rounded-full border border-black/10 text-[#18181B] hover:bg-black/5 transition-colors"
                         >
                             <AnimatePresence mode="wait" initial={false}>
                                 {isMenuOpen ? (
@@ -131,7 +105,7 @@ export function Nav() {
                                         exit={{ rotate: 90, opacity: 0 }}
                                         transition={{ duration: 0.2 }}
                                     >
-                                        <X size={18} />
+                                        <X size={20} />
                                     </motion.div>
                                 ) : (
                                     <motion.div
@@ -141,13 +115,13 @@ export function Nav() {
                                         exit={{ rotate: -90, opacity: 0 }}
                                         transition={{ duration: 0.2 }}
                                     >
-                                        <Menu size={18} />
+                                        <Menu size={20} />
                                     </motion.div>
                                 )}
                             </AnimatePresence>
                         </button>
                     </div>
-                </motion.div>
+                </div>
             </motion.nav>
 
             {/* Mobile Drawer (Overlay) */}
@@ -158,9 +132,16 @@ export function Nav() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="fixed inset-0 z-40 bg-bg-primary/90 backdrop-blur-md md:hidden flex flex-col items-center justify-center gap-8"
+                        className="fixed inset-0 z-[60] bg-[#FAFAFA]/98 backdrop-blur-xl md:hidden flex flex-col items-center justify-center gap-10"
                     >
-                        <div className="flex flex-col items-center gap-6">
+                        <button
+                            onClick={() => setIsMenuOpen(false)}
+                            className="absolute top-6 right-6 p-2 rounded-full border border-black/10 text-[#18181B] hover:bg-black/5 transition-colors"
+                        >
+                            <X size={24} />
+                        </button>
+
+                        <div className="flex flex-col items-center gap-10">
                             {[...NAV_ITEMS, { label: "Contact", href: "#contact" }].map((item, index) => (
                                 <motion.div
                                     key={item.href}
@@ -172,9 +153,9 @@ export function Nav() {
                                     <Link
                                         href={item.href}
                                         onClick={() => setIsMenuOpen(false)}
-                                        className={`text-2xl font-semibold font-syne transition-colors ${activeSection === item.href.substring(1)
-                                            ? "text-accent-blue text-glow-blue"
-                                            : "text-text-primary hover:text-accent-green"
+                                        className={`text-2xl font-black uppercase tracking-widest transition-colors ${activeSection === item.href.substring(1)
+                                            ? "text-[#18181B]"
+                                            : "text-[#71717A] hover:text-[#18181B]"
                                             }`}
                                     >
                                         {item.label}
