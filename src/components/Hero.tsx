@@ -1,43 +1,52 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { AnimatedSection } from "./ui/AnimatedSection";
 
 export function Hero() {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
 
             {/* Background CSS Particles */}
-            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                {/* We'll create several particle elements animated via CSS */}
-                {[...Array(40)].map((_, i) => {
-                    // Calculate random positions and animation properties directly in style
-                    const size = Math.random() * 3 + 1; // 1px to 4px
-                    const startX = Math.random() * 100; // 0% to 100%
-                    const startY = Math.random() * 100; // 0% to 100%
-                    const duration = Math.random() * 20 + 20; // 20s to 40s
-                    const delay = Math.random() * -40; // Starts at random point in animation
-                    const alpha = Math.random() * 0.5 + 0.1;
+            {mounted && (
+                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                    {/* We'll create several particle elements animated via CSS */}
+                    {[...Array(40)].map((_, i) => {
+                        // Calculate random positions and animation properties directly in style
+                        const size = Math.random() * 3 + 1; // 1px to 4px
+                        const startX = Math.random() * 100; // 0% to 100%
+                        const startY = Math.random() * 100; // 0% to 100%
+                        const duration = Math.random() * 20 + 20; // 20s to 40s
+                        const delay = Math.random() * -40; // Starts at random point in animation
+                        const alpha = Math.random() * 0.5 + 0.1;
 
-                    return (
-                        <div
-                            key={i}
-                            className="absolute rounded-full bg-accent-blue animate-particle"
-                            style={{
-                                width: `${size}px`,
-                                height: `${size}px`,
-                                left: `${startX}%`,
-                                top: `${startY}%`,
-                                opacity: alpha,
-                                animationDuration: `${duration}s`,
-                                animationDelay: `${delay}s`,
-                                // We use custom properties to pass random directions to keyframes
-                                "--tx": `${(Math.random() - 0.5) * 40}vw`,
-                                "--ty": `${(Math.random() - 0.5) * 40}vh`
-                            } as React.CSSProperties}
-                        />
-                    );
-                })}
-            </div>
+                        return (
+                            <div
+                                key={i}
+                                className="absolute rounded-full bg-accent-blue animate-particle"
+                                style={{
+                                    width: `${size}px`,
+                                    height: `${size}px`,
+                                    left: `${startX}%`,
+                                    top: `${startY}%`,
+                                    opacity: alpha,
+                                    animationDuration: `${duration}s`,
+                                    animationDelay: `${delay}s`,
+                                    // We use custom properties to pass random directions to keyframes
+                                    "--tx": `${(Math.random() - 0.5) * 40}vw`,
+                                    "--ty": `${(Math.random() - 0.5) * 40}vh`
+                                } as React.CSSProperties}
+                            />
+                        );
+                    })}
+                </div>
+            )}
 
             {/* Ambient Orbs */}
             <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-accent-blue/20 rounded-full blur-[120px] -z-10 animate-float" />
