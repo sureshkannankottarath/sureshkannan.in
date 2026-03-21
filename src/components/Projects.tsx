@@ -74,7 +74,7 @@ export function Projects() {
 
                 <AnimatedSection delayMs={500}>
                     <div className="mt-12 text-center">
-                        <a href="https://github.com/YOUR_GITHUB_STUB" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-[#18181B] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm shadow-[0_10px_30px_rgba(24,24,27,0.15)] hover:scale-[1.03] hover:bg-[#BAE6FD] hover:text-[#18181B] transition-all duration-300">
+                        <a href="https://github.com/YOUR_GITHUB_STUB" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-[#18181B] border border-transparent text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm shadow-[0_10px_30px_rgba(24,24,27,0.15)] hover:scale-[1.03] hover:bg-white hover:text-[#18181B] hover:border-[#18181B] transition-all duration-300">
                             View All Projects
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                         </a>

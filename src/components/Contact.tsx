@@ -28,7 +28,7 @@ export function Contact() {
 
                 <AnimatedSection delayMs={200}>
                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                        <a href="mailto:contact@example.com" className="px-10 py-5 bg-[#18181B] text-white rounded-full font-bold uppercase tracking-widest text-sm shadow-[0_10px_40px_rgba(24,24,27,0.2)] hover:scale-105 hover:bg-[#BAE6FD] hover:text-[#18181B] transition-all transform duration-300">
+                        <a href="mailto:contact@example.com" className="px-10 py-5 bg-[#18181B] border border-transparent text-white rounded-full font-bold uppercase tracking-widest text-sm shadow-[0_10px_40px_rgba(24,24,27,0.2)] hover:scale-105 hover:bg-white hover:text-[#18181B] hover:border-[#18181B] hover:shadow-[0_15px_40px_rgba(24,24,27,0.3)] transition-all transform duration-300">
                             Start a Conversation
                         </a>
                         <div className="flex items-center gap-4">

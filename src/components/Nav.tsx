@@ -96,7 +96,7 @@ export function Nav() {
                     <div className="flex items-center gap-4">
                         <a
                             href="#contact"
-                            className="hidden md:block px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#18181B] text-white hover:scale-105 hover:bg-[#BAE6FD] hover:text-[#18181B]"
+                            className="hidden md:block px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#18181B] border border-transparent text-white hover:bg-white hover:text-[#18181B] hover:border-[#18181B] hover:shadow-[0_0_20px_rgba(0,0,0,0.1)]"
                         >
                             Contact
                         </a>
