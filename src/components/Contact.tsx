@@ -47,7 +47,7 @@ export function Contact() {
             </div>
 
             {/* Bottom Pinned Footer */}
-            <div className="w-full mt-auto border-t border-black/10 bg-[#FAFAFA]/50 backdrop-blur-md">
+            <div className="w-full mt-auto bg-[#FAFAFA]/50 backdrop-blur-md">
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8 flex flex-col md:flex-row justify-between items-center text-xs md:text-sm font-semibold text-[#71717A] uppercase tracking-widest gap-4 md:gap-0">
                     <p>© 2025 Suresh Kannan.</p>
                     <p className="opacity-70">Inspired by Technology.</p>

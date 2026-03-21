@@ -1,9 +1,29 @@
 import Image from "next/image";
 import { AnimatedSection } from "./ui/AnimatedSection";
 import { Cormorant_Garamond } from "next/font/google";
+import { SiPython, SiNextdotjs, SiOpenai, SiFastapi, SiDocker } from "react-icons/si";
+import { FaDatabase, FaRobot, FaBrain, FaMagnifyingGlass, FaLeaf, FaShieldHalved } from "react-icons/fa6";
+import React from "react";
 import projects from "../data/projects.json";
 
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
+
+const getTagIcon = (tag: string) => {
+    switch (tag.toLowerCase()) {
+        case "rag": return <FaBrain className="w-4 h-4 text-[#8B5CF6]" />;
+        case "python": return <SiPython className="w-4 h-4 text-[#3776AB]" />;
+        case "chromadb": return <FaDatabase className="w-4 h-4 text-[#FF5733]" />;
+        case "qwen": return <FaRobot className="w-4 h-4 text-[#3B82F6]" />;
+        case "next.js": return <SiNextdotjs className="w-4 h-4 text-[#000000]" />;
+        case "openai": return <SiOpenai className="w-4 h-4 text-[#412991]" />;
+        case "fastapi": return <SiFastapi className="w-4 h-4 text-[#009688]" />;
+        case "semantic search": return <FaMagnifyingGlass className="w-4 h-4 text-[#4285F4]" />;
+        case "docker": return <SiDocker className="w-4 h-4 text-[#2496ED]" />;
+        case "celery": return <FaLeaf className="w-4 h-4 text-[#37A853]" />;
+        case "security": return <FaShieldHalved className="w-4 h-4 text-[#EF4444]" />;
+        default: return <span className="text-[10px] font-bold uppercase">{tag}</span>;
+    }
+};
 
 export function Projects() {
     return (
@@ -22,22 +42,28 @@ export function Projects() {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
                     {projects.map((project, index) => (
                         <AnimatedSection key={project.title} delayMs={index * 150}>
-                            <div className="group cursor-pointer">
+                            <div className="group cursor-pointer flex flex-col h-full bg-white p-4 lg:p-6 -m-4 lg:-m-6 rounded-2xl hover:shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:scale-[1.03] border border-transparent hover:border-black/5 transition-all duration-500">
                                 {project.image && (
-                                    <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden bg-[#FAFAFA] border border-black/5">
+                                    <div className="relative w-full aspect-[4/3] mb-6 rounded-xl overflow-hidden bg-[#FAFAFA] border border-black/5">
                                         <Image src={project.image} alt={project.title} fill className="object-cover object-top transition-transform duration-700 group-hover:scale-105" />
                                     </div>
                                 )}
                                 <h3 className="text-xl lg:text-2xl font-bold text-[#18181B] mb-3 tracking-tight uppercase">
                                     {project.title}
                                 </h3>
-                                <p className="text-[#71717A] text-sm md:text-base mb-5 leading-relaxed font-medium line-clamp-3">
+                                <p className="text-[#71717A] text-sm md:text-base mb-6 leading-relaxed font-medium">
                                     {project.description}
                                 </p>
-                                <div className="flex flex-wrap gap-2">
+
+                                <div className="mt-auto flex flex-wrap items-center gap-3">
                                     {project.tags.map((tag) => (
-                                        <div key={tag} className="px-4 py-1.5 bg-[#FAFAFA] border border-black/5 rounded-full text-xs font-semibold text-[#18181B] uppercase tracking-wider">
-                                            {tag}
+                                        <div key={tag} className="group/icon relative flex items-center justify-center w-10 h-10 rounded-full bg-[#FAFAFA] border border-black/5 hover:border-black/10 hover:bg-white hover:scale-110 hover:shadow-sm transition-all cursor-help">
+                                            {getTagIcon(tag)}
+
+                                            {/* Tooltip on Hover */}
+                                            <span className="absolute -bottom-8 opacity-0 group-hover/icon:opacity-100 text-[10px] uppercase font-bold tracking-widest text-white bg-black px-2 py-1 rounded transition-opacity duration-300 pointer-events-none whitespace-nowrap z-20 shadow-xl">
+                                                {tag}
+                                            </span>
                                         </div>
                                     ))}
                                 </div>
@@ -48,7 +74,7 @@ export function Projects() {
 
                 <AnimatedSection delayMs={500}>
                     <div className="mt-12 text-center">
-                        <a href="https://github.com/YOUR_GITHUB_STUB" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[#18181B] font-bold uppercase tracking-widest text-xs md:text-sm hover:opacity-70 transition-opacity">
+                        <a href="https://github.com/YOUR_GITHUB_STUB" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-[#18181B] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm shadow-[0_10px_30px_rgba(24,24,27,0.15)] hover:scale-[1.03] hover:bg-[#BAE6FD] hover:text-[#18181B] transition-all duration-300">
                             View All Projects
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                         </a>
