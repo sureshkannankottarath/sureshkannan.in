@@ -7,22 +7,12 @@ import { ProjectCard } from "@/components/Projects";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { Cormorant_Garamond } from "next/font/google";
 import { Search } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { projectsData } from "@/data/projects";
 
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
 
 export default function ProjectsList() {
     const [searchQuery, setSearchQuery] = useState("");
-    const [projectsData, setProjectsData] = useState<any[]>([]);
-
-    useEffect(() => {
-        const fetchProjects = async () => {
-            const supabase = createClient();
-            const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
-            if (data) setProjectsData(data);
-        };
-        fetchProjects();
-    }, []);
 
     const filteredProjects = projectsData.filter((project) => {
         const query = searchQuery.toLowerCase();
@@ -78,7 +68,7 @@ export default function ProjectsList() {
                     {filteredProjects.length > 0 ? (
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 min-h-[40vh]">
                             {filteredProjects.map((project, index) => (
-                                <ProjectCard key={project.title} project={project} index={index % 6} />
+                                <ProjectCard key={project.title} project={project} index={index % 6} showTags={false} />
                             ))}
                         </div>
                     ) : (

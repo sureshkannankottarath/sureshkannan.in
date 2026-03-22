@@ -29,7 +29,7 @@ export const getTagIcon = (tag: string) => {
     }
 };
 
-export const ProjectCard = ({ project, index }: { project: any, index: number }) => {
+export const ProjectCard = ({ project, index, showTags = true }: { project: any, index: number, showTags?: boolean }) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -94,16 +94,18 @@ export const ProjectCard = ({ project, index }: { project: any, index: number })
                     </motion.div>
 
                     {/* Floating Tags layered high */}
-                    <motion.div style={{ transform: "translateZ(30px)" }} className="mt-auto flex flex-wrap items-center gap-3">
-                        {project.tags.map((tag: string) => (
-                            <div key={tag} className="group/icon relative flex items-center justify-center w-10 h-10 rounded-full bg-[#FAFAFA] border border-black/5 hover:border-black/20 hover:bg-white hover:scale-110 hover:shadow-md transition-all cursor-help">
-                                {getTagIcon(tag)}
-                                <span className="absolute -bottom-8 opacity-0 group-hover/icon:opacity-100 text-[10px] uppercase font-bold tracking-widest text-white bg-black px-2 py-1 rounded transition-opacity duration-300 pointer-events-none whitespace-nowrap z-20 shadow-xl">
-                                    {tag}
-                                </span>
-                            </div>
-                        ))}
-                    </motion.div>
+                    {showTags && (
+                        <motion.div style={{ transform: "translateZ(30px)" }} className="mt-auto flex flex-wrap items-center gap-3">
+                            {project.tags.map((tag: string) => (
+                                <div key={tag} className="group/icon relative flex items-center justify-center w-10 h-10 rounded-full bg-[#FAFAFA] border border-black/5 hover:border-black/20 hover:bg-white hover:scale-110 hover:shadow-md transition-all cursor-help">
+                                    {getTagIcon(tag)}
+                                    <span className="absolute -bottom-8 opacity-0 group-hover/icon:opacity-100 text-[10px] uppercase font-bold tracking-widest text-white bg-black px-2 py-1 rounded transition-opacity duration-300 pointer-events-none whitespace-nowrap z-20 shadow-xl">
+                                        {tag}
+                                    </span>
+                                </div>
+                            ))}
+                        </motion.div>
+                    )}
                 </motion.div>
             </Link>
         </AnimatedSection>
@@ -126,7 +128,7 @@ export function Projects({ projects = [] }: { projects?: any[] }) {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
                     {projects.map((project, index) => (
-                        <ProjectCard key={project.title} project={project} index={index} />
+                        <ProjectCard key={project.title} project={project} index={index} showTags={false} />
                     ))}
                 </div>
 
