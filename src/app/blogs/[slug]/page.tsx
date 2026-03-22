@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Cormorant_Garamond } from "next/font/google";
 import Link from "next/link";
+import { getProxiedImage } from "@/lib/image";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { createClient } from '@/lib/supabase/server'
 import { createBrowserClient } from '@supabase/ssr'
@@ -67,7 +68,7 @@ export default async function BlogPage(props: { params: Promise<{ slug: string }
 
                     {blog.image && (
                         <AnimatedSection delayMs={200} className="w-full relative aspect-[21/9] rounded-2xl md:rounded-[2rem] overflow-hidden mb-16 shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-black/5 bg-white">
-                            <Image src={blog.image} alt={blog.title} fill className="object-cover object-center" priority />
+                            <Image src={getProxiedImage(blog.image)} alt={blog.title} fill className="object-cover object-center" priority />
                         </AnimatedSection>
                     )}
 

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { AnimatedSection } from "./ui/AnimatedSection";
 import { Cormorant_Garamond } from "next/font/google";
+import { getProxiedImage } from "@/lib/image";
 import { SiPython, SiNextdotjs, SiOpenai, SiFastapi, SiDocker } from "react-icons/si";
 import { FaDatabase, FaRobot, FaBrain, FaMagnifyingGlass, FaLeaf, FaShieldHalved } from "react-icons/fa6";
 import React, { useRef } from "react";
@@ -78,7 +79,7 @@ export const ProjectCard = ({ project, index }: { project: any, index: number })
                         className="relative w-full aspect-[4/3] mb-6 rounded-xl overflow-hidden bg-[#FAFAFA] border border-black/5 shadow-[0_15px_40px_rgba(0,0,0,0.06)] group-hover:shadow-[0_25px_60px_rgba(0,0,0,0.15)] transition-shadow duration-500"
                     >
                         {project.image && (
-                            <Image src={project.image} alt={project.title} fill className="object-cover object-top transition-transform duration-700 group-hover:scale-110" />
+                            <Image src={getProxiedImage(project.image)} alt={project.title} fill className="object-cover object-top transition-transform duration-700 group-hover:scale-110" />
                         )}
                     </motion.div>
 

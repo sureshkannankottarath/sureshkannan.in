@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createBrowserClient } from '@supabase/ssr'
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { getProxiedImage } from "@/lib/image";
 import { Cormorant_Garamond } from "next/font/google";
 import Link from "next/link";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
@@ -93,7 +94,7 @@ export default async function ProjectPage(props: { params: Promise<{ slug: strin
 
                     <AnimatedSection delayMs={300} className="w-full relative aspect-video rounded-2xl md:rounded-[2rem] overflow-hidden mb-16 md:mb-24 shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-black/5 group cursor-pointer bg-white">
                         {project.image && (
-                            <Image src={project.image} alt={project.title} fill className="object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-in-out" priority />
+                            <Image src={getProxiedImage(project.image)} alt={project.title} fill className="object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-in-out" priority />
                         )}
                     </AnimatedSection>
 
