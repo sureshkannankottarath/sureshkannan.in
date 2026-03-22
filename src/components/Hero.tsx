@@ -54,7 +54,7 @@ export function Hero() {
                 <div className="absolute bottom-0 left-0 right-0 h-40 md:h-64 bg-gradient-to-t from-[#FAFAFA] to-transparent z-[15] pointer-events-none" />
 
                 {/* Middle Floating Overlays */}
-                <div className="absolute top-[600px] md:top-[500px] w-full px-4 md:px-12 flex flex-col items-end z-20 pointer-events-none">
+                <div className="absolute top-[55%] sm:top-[60%] md:top-[500px] w-full px-4 md:px-12 flex flex-col items-end z-20 pointer-events-none">
 
                     {/* Description - Right Edge */}
                     <AnimatedSection delayMs={500} className="max-w-[260px] md:max-w-[320px] text-right pointer-events-auto">
