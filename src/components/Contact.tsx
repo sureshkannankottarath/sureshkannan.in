@@ -9,7 +9,7 @@ export function Contact() {
         <footer id="contact" className="min-h-[100dvh] w-full flex flex-col relative border-t border-black/5 overflow-hidden snap-start snap-always" style={{ background: 'radial-gradient(circle at center, #E0F2FE 0%, #FAFAFA 60%)' }}>
 
             {/* Main Centered Content */}
-            <div className="max-w-4xl mx-auto px-6 lg:px-12 w-full flex-grow flex flex-col justify-center text-center">
+            <div className="max-w-4xl mx-auto px-6 lg:px-12 w-full flex-grow flex flex-col justify-center text-center pt-32 pb-16 md:py-0">
                 <AnimatedSection>
                     <div className="mb-8">
                         <h2 className="text-[4rem] sm:text-[5.5rem] lg:text-[8rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-5">
