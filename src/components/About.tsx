@@ -1,5 +1,9 @@
+"use client";
+
 import { AnimatedSection } from "./ui/AnimatedSection";
 import { Cormorant_Garamond } from "next/font/google";
+import { useRef } from "react";
+import { motion } from "framer-motion";
 import {
     SiPython,
     SiFastapi,
@@ -15,23 +19,38 @@ import { FaDatabase, FaLink } from "react-icons/fa6";
 
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
 
-const skills = [
-    { name: "Python", Icon: SiPython, color: "#3776AB" },
-    { name: "FastAPI", Icon: SiFastapi, color: "#009688" },
-    { name: "React", Icon: SiReact, color: "#61DAFB" },
-    { name: "Next.js", Icon: SiNextdotjs, color: "#000000" },
-    { name: "ChromaDB", Icon: FaDatabase, color: "#FF5733" },
-    { name: "OpenAI", Icon: SiOpenai, color: "#412991" },
-    { name: "LangChain", Icon: FaLink, color: "#111111" },
-    { name: "Node.js", Icon: SiNodedotjs, color: "#43853D" },
-    { name: "Docker", Icon: SiDocker, color: "#2496ED" },
-    { name: "Vercel", Icon: SiVercel, color: "#000000" },
-    { name: "PostgreSQL", Icon: SiPostgresql, color: "#336791" }
+const skillCategories = [
+    {
+        title: "AI & Search",
+        skills: [
+            { name: "Python", Icon: SiPython, color: "#3776AB" },
+            { name: "OpenAI", Icon: SiOpenai, color: "#412991" },
+            { name: "LangChain", Icon: FaLink, color: "#111111" },
+            { name: "ChromaDB", Icon: FaDatabase, color: "#FF5733" },
+        ]
+    },
+    {
+        title: "Full Stack",
+        skills: [
+            { name: "React", Icon: SiReact, color: "#61DAFB" },
+            { name: "Next.js", Icon: SiNextdotjs, color: "#000000" },
+            { name: "FastAPI", Icon: SiFastapi, color: "#009688" },
+            { name: "Node.js", Icon: SiNodedotjs, color: "#43853D" },
+        ]
+    },
+    {
+        title: "Cloud & Dev",
+        skills: [
+            { name: "PostgreSQL", Icon: SiPostgresql, color: "#336791" },
+            { name: "Docker", Icon: SiDocker, color: "#2496ED" },
+            { name: "Vercel", Icon: SiVercel, color: "#000000" }
+        ]
+    }
 ];
 
 export function About() {
     return (
-        <section id="about" className="min-h-[100dvh] w-full flex flex-col justify-center relative bg-[#FAFAFA] border-t border-black/5 snap-start snap-always py-24 md:py-0">
+        <section id="about" className="min-h-[100dvh] w-full flex flex-col justify-center relative bg-[#FAFAFA] border-t border-black/5 snap-start snap-always py-24 md:py-0 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex flex-col md:flex-row gap-16 md:gap-24 items-start">
 
                 {/* Left Column: Huge Editorial Header */}
@@ -60,12 +79,26 @@ export function About() {
 
                     <AnimatedSection delayMs={200}>
                         <div className="pt-12 mt-12 border-t border-black/10">
-                            <h3 className="text-sm font-bold text-[#18181B] uppercase tracking-wider mb-6">Core Arsenal</h3>
-                            <div className="flex flex-wrap gap-2 md:gap-3">
-                                {skills.map((skill) => (
-                                    <div key={skill.name} className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-black/10 text-xs md:text-sm font-semibold text-[#18181B] bg-white shadow-sm hover:scale-105 hover:shadow-md transition-all cursor-default">
-                                        <skill.Icon style={{ color: skill.color }} className="w-4 h-4" />
-                                        {skill.name}
+                            <h3 className="text-sm font-bold text-[#18181B] uppercase tracking-wider mb-8">Core Arsenal</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                                {skillCategories.map((category) => (
+                                    <div key={category.title} className="flex flex-col gap-4">
+                                        <span className="text-xs font-black uppercase text-[#71717A] tracking-widest border-b border-black/5 pb-2">
+                                            {category.title}
+                                        </span>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            {category.skills.map((skill) => (
+                                                <div
+                                                    key={skill.name}
+                                                    className="group flex flex-col items-center justify-center gap-3 p-4 rounded-xl border border-black/5 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-black/10 hover:-translate-y-1 transition-all duration-300"
+                                                >
+                                                    <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#18181B] group-hover:text-black transition-colors text-center leading-tight">
+                                                        {skill.name}
+                                                    </span>
+                                                    <skill.Icon style={{ color: skill.color }} className="w-7 h-7 sm:w-8 sm:h-8 transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" />
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 ))}
                             </div>

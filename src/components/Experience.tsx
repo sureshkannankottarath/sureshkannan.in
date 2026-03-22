@@ -1,5 +1,8 @@
+"use client";
+
 import { AnimatedSection } from "./ui/AnimatedSection";
 import { Cormorant_Garamond } from "next/font/google";
+import { motion } from "framer-motion";
 
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
 
@@ -28,7 +31,13 @@ export function Experience() {
                                     <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">Bobcares</h3>
                                     <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2020 – Present</span>
                                 </div>
-                                <div className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500"></div>
+                                <motion.div
+                                    initial={{ scaleX: 0 }}
+                                    whileInView={{ scaleX: 1 }}
+                                    viewport={{ once: true, margin: "-50px" }}
+                                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                                    className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500 origin-left"
+                                ></motion.div>
 
                                 <div className="space-y-8">
                                     <div>
@@ -49,7 +58,13 @@ export function Experience() {
                                     <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">TechNova Solutions</h3>
                                     <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2019 – 2020</span>
                                 </div>
-                                <div className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500"></div>
+                                <motion.div
+                                    initial={{ scaleX: 0 }}
+                                    whileInView={{ scaleX: 1 }}
+                                    viewport={{ once: true, margin: "-50px" }}
+                                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                                    className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500 origin-left"
+                                ></motion.div>
 
                                 <div>
                                     <h4 className="text-xl font-semibold text-[#18181B] mb-2">Full Stack Developer</h4>
@@ -64,7 +79,13 @@ export function Experience() {
                                     <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">InitVentures</h3>
                                     <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2017 – 2018</span>
                                 </div>
-                                <div className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500"></div>
+                                <motion.div
+                                    initial={{ scaleX: 0 }}
+                                    whileInView={{ scaleX: 1 }}
+                                    viewport={{ once: true, margin: "-50px" }}
+                                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                                    className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500 origin-left"
+                                ></motion.div>
 
                                 <div className="space-y-8">
                                     <div>
