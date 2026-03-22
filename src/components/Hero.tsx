@@ -97,7 +97,7 @@ export function Hero() {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     transition={{ duration: 1.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     style={{ x: imageX }}
-                    className="absolute left-1/2 bottom-0 -translate-x-1/2 z-10 w-[150%] md:w-[1040px] lg:w-[1300px] h-[75%] md:h-[1000px] pointer-events-none origin-bottom"
+                    className="absolute left-1/2 bottom-0 -translate-x-1/2 z-10 w-[150%] md:w-[1040px] lg:w-[1300px] h-[80%] md:h-[1000px] pointer-events-none origin-bottom"
                 >
                     <Image
                         src="/images/latest_me.png"
@@ -124,8 +124,7 @@ export function Hero() {
                     </AnimatedSection>
                 </div>
 
-                {/* Bottom Titles - Locked to exact bottom of wrapper */}
-                <motion.div style={{ x: textLayerX, y: textLayerY }} className="absolute bottom-16 md:bottom-12 w-full flex flex-col md:flex-row justify-between items-end z-20 pointer-events-none px-4 md:px-0">
+                <motion.div style={{ x: textLayerX, y: textLayerY }} className="absolute bottom-24 md:bottom-12 w-full flex flex-col md:flex-row justify-between items-end z-20 pointer-events-none px-4 md:px-0">
                     <div className="text-left font-sans font-black tracking-tighter leading-[0.8] text-[#18181B] flex flex-col">
                         <SplitText delayParams={0.8} text="I AM" className="text-[15vw] md:text-[6.5rem] lg:text-[9rem] uppercase drop-shadow-lg" />
                         <SplitText delayParams={1.0} text="SURESH" className="text-[15vw] md:text-[6.5rem] lg:text-[9rem] uppercase drop-shadow-lg" />
