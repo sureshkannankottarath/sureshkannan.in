@@ -55,7 +55,7 @@ export default async function BlogPage(props: { params: Promise<{ slug: string }
 
                     <AnimatedSection delayMs={100} className="w-full">
                         <p className="text-xs font-bold uppercase tracking-widest text-[#71717A] mb-4">{new Date(blog.created_at).toLocaleDateString()}</p>
-                        <h1 className="text-[2.5rem] sm:text-[3.5rem] lg:text-[4.5rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.9] mb-12 shadow-sm break-words">
+                        <h1 className="text-[2.5rem] sm:text-[3.5rem] lg:text-[4.5rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.9] mb-12 break-words">
                             {firstWord}
                             {restOfTitle && <br />}
                             {restOfTitle && (

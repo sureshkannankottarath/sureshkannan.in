@@ -72,7 +72,7 @@ export default async function ProjectPage(props: { params: Promise<{ slug: strin
                     </AnimatedSection>
 
                     <AnimatedSection delayMs={100} className="w-full text-center">
-                        <h1 className="text-[3rem] sm:text-[4.5rem] lg:text-[6rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.9] mb-8 shadow-sm break-words">
+                        <h1 className="text-[3rem] sm:text-[4.5rem] lg:text-[6rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.9] mb-8 break-words">
                             {firstWord}
                             {restOfTitle && <br />}
                             {restOfTitle && (
