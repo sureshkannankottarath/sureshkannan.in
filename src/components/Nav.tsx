@@ -10,7 +10,7 @@ const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["400", "500"
 
 const NAV_ITEMS = [
     { label: "About", href: "/#about" },
-    { label: "Projects", href: "/#projects" },
+    { label: "Projects", href: "/projects" },
     { label: "Experience", href: "/#experience" },
     { label: "Blog", href: "/blogs" },
 ];
