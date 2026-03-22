@@ -9,9 +9,9 @@ import { Cormorant_Garamond } from "next/font/google";
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["400", "500", "600"], style: ["italic", "normal"] });
 
 const NAV_ITEMS = [
-    { label: "About", href: "#about" },
-    { label: "Projects", href: "#projects" },
-    { label: "Experience", href: "#experience" },
+    { label: "About", href: "/#about" },
+    { label: "Projects", href: "/#projects" },
+    { label: "Experience", href: "/#experience" },
 ];
 
 export function Nav() {
@@ -82,7 +82,7 @@ export function Nav() {
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`text-xs lg:text-sm font-bold uppercase tracking-widest transition-colors duration-300 ${activeSection === item.href.substring(1)
+                                className={`text-xs lg:text-sm font-bold uppercase tracking-widest transition-colors duration-300 ${activeSection === item.href.split('#')[1]
                                     ? "text-[#18181B]"
                                     : "text-[#71717A] hover:text-[#18181B]"
                                     }`}
@@ -95,7 +95,7 @@ export function Nav() {
                     {/* Contact Button & Mobile Trigger */}
                     <div className="flex items-center gap-4">
                         <a
-                            href="#contact"
+                            href="/#contact"
                             className="hidden md:block px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-[#18181B] border border-transparent text-white hover:bg-white hover:text-[#18181B] hover:border-[#18181B] hover:shadow-[0_0_20px_rgba(0,0,0,0.1)]"
                         >
                             Contact
@@ -152,7 +152,7 @@ export function Nav() {
                         </button>
 
                         <div className="flex flex-col items-center gap-10">
-                            {[...NAV_ITEMS, { label: "Contact", href: "#contact" }].map((item, index) => (
+                            {[...NAV_ITEMS, { label: "Contact", href: "/#contact" }].map((item, index) => (
                                 <motion.div
                                     key={item.href}
                                     initial={{ opacity: 0, y: 20 }}
@@ -163,7 +163,7 @@ export function Nav() {
                                     <Link
                                         href={item.href}
                                         onClick={() => setIsMenuOpen(false)}
-                                        className={`text-2xl font-black uppercase tracking-widest transition-colors ${activeSection === item.href.substring(1)
+                                        className={`text-2xl font-black uppercase tracking-widest transition-colors ${activeSection === item.href.split('#')[1]
                                             ? "text-[#18181B]"
                                             : "text-[#71717A] hover:text-[#18181B]"
                                             }`}

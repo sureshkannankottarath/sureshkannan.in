@@ -8,10 +8,11 @@ import { FaDatabase, FaRobot, FaBrain, FaMagnifyingGlass, FaLeaf, FaShieldHalved
 import React, { useRef } from "react";
 import projects from "../data/projects.json";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import Link from "next/link";
 
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
 
-const getTagIcon = (tag: string) => {
+export const getTagIcon = (tag: string) => {
     switch (tag.toLowerCase()) {
         case "rag": return <FaBrain className="w-4 h-4 text-[#8B5CF6]" />;
         case "python": return <SiPython className="w-4 h-4 text-[#3776AB]" />;
@@ -28,7 +29,7 @@ const getTagIcon = (tag: string) => {
     }
 };
 
-const ProjectCard = ({ project, index }: { project: any, index: number }) => {
+export const ProjectCard = ({ project, index }: { project: any, index: number }) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -64,45 +65,47 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
 
     return (
         <AnimatedSection delayMs={index * 150} className="perspective-1000">
-            <motion.div
-                ref={cardRef}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                className="group cursor-pointer flex flex-col h-full bg-white p-4 lg:p-6 rounded-2xl border border-black/5 hover:border-black/10 transition-colors duration-500 will-change-transform"
-            >
-                {/* 3D Popping Image */}
+            <Link href={`/projects/${project.slug}`} className="block h-full">
                 <motion.div
-                    style={{ transform: "translateZ(40px)" }}
-                    className="relative w-full aspect-[4/3] mb-6 rounded-xl overflow-hidden bg-[#FAFAFA] border border-black/5 shadow-[0_15px_40px_rgba(0,0,0,0.06)] group-hover:shadow-[0_25px_60px_rgba(0,0,0,0.15)] transition-shadow duration-500"
+                    ref={cardRef}
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={handleMouseLeave}
+                    style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                    className="group cursor-pointer flex flex-col h-full bg-white p-4 lg:p-6 rounded-2xl border border-black/5 hover:border-black/10 transition-colors duration-500 will-change-transform"
                 >
-                    {project.image && (
-                        <Image src={project.image} alt={project.title} fill className="object-cover object-top transition-transform duration-700 group-hover:scale-110" />
-                    )}
-                </motion.div>
+                    {/* 3D Popping Image */}
+                    <motion.div
+                        style={{ transform: "translateZ(40px)" }}
+                        className="relative w-full aspect-[4/3] mb-6 rounded-xl overflow-hidden bg-[#FAFAFA] border border-black/5 shadow-[0_15px_40px_rgba(0,0,0,0.06)] group-hover:shadow-[0_25px_60px_rgba(0,0,0,0.15)] transition-shadow duration-500"
+                    >
+                        {project.image && (
+                            <Image src={project.image} alt={project.title} fill className="object-cover object-top transition-transform duration-700 group-hover:scale-110" />
+                        )}
+                    </motion.div>
 
-                {/* Text layered below */}
-                <motion.div style={{ transform: "translateZ(20px)" }}>
-                    <h3 className="text-xl lg:text-2xl font-bold text-[#18181B] mb-3 tracking-tight uppercase">
-                        {project.title}
-                    </h3>
-                    <p className="text-[#71717A] text-sm md:text-base mb-6 leading-relaxed font-medium">
-                        {project.description}
-                    </p>
-                </motion.div>
+                    {/* Text layered below */}
+                    <motion.div style={{ transform: "translateZ(20px)" }}>
+                        <h3 className="text-xl lg:text-2xl font-bold text-[#18181B] mb-3 tracking-tight uppercase">
+                            {project.title}
+                        </h3>
+                        <p className="text-[#71717A] text-sm md:text-base mb-6 leading-relaxed font-medium">
+                            {project.description}
+                        </p>
+                    </motion.div>
 
-                {/* Floating Tags layered high */}
-                <motion.div style={{ transform: "translateZ(30px)" }} className="mt-auto flex flex-wrap items-center gap-3">
-                    {project.tags.map((tag: string) => (
-                        <div key={tag} className="group/icon relative flex items-center justify-center w-10 h-10 rounded-full bg-[#FAFAFA] border border-black/5 hover:border-black/20 hover:bg-white hover:scale-110 hover:shadow-md transition-all cursor-help">
-                            {getTagIcon(tag)}
-                            <span className="absolute -bottom-8 opacity-0 group-hover/icon:opacity-100 text-[10px] uppercase font-bold tracking-widest text-white bg-black px-2 py-1 rounded transition-opacity duration-300 pointer-events-none whitespace-nowrap z-20 shadow-xl">
-                                {tag}
-                            </span>
-                        </div>
-                    ))}
+                    {/* Floating Tags layered high */}
+                    <motion.div style={{ transform: "translateZ(30px)" }} className="mt-auto flex flex-wrap items-center gap-3">
+                        {project.tags.map((tag: string) => (
+                            <div key={tag} className="group/icon relative flex items-center justify-center w-10 h-10 rounded-full bg-[#FAFAFA] border border-black/5 hover:border-black/20 hover:bg-white hover:scale-110 hover:shadow-md transition-all cursor-help">
+                                {getTagIcon(tag)}
+                                <span className="absolute -bottom-8 opacity-0 group-hover/icon:opacity-100 text-[10px] uppercase font-bold tracking-widest text-white bg-black px-2 py-1 rounded transition-opacity duration-300 pointer-events-none whitespace-nowrap z-20 shadow-xl">
+                                    {tag}
+                                </span>
+                            </div>
+                        ))}
+                    </motion.div>
                 </motion.div>
-            </motion.div>
+            </Link>
         </AnimatedSection>
     );
 };
@@ -129,10 +132,10 @@ export function Projects() {
 
                 <AnimatedSection delayMs={500}>
                     <div className="mt-12 text-center">
-                        <a href="https://github.com/YOUR_GITHUB_STUB" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-[#18181B] border border-transparent text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm shadow-[0_10px_30px_rgba(24,24,27,0.15)] hover:scale-[1.03] hover:bg-white hover:text-[#18181B] hover:border-[#18181B] transition-all duration-300">
+                        <Link href="/projects" className="inline-flex items-center gap-3 bg-[#18181B] border border-transparent text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm shadow-[0_10px_30px_rgba(24,24,27,0.15)] hover:scale-[1.03] hover:bg-white hover:text-[#18181B] hover:border-[#18181B] transition-all duration-300">
                             View All Projects
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                        </a>
+                        </Link>
                     </div>
                 </AnimatedSection>
             </div>
