@@ -1,6 +1,7 @@
 import { Nav } from "@/components/Nav";
 import { Contact } from "@/components/Contact";
-import projects from "@/data/projects.json";
+import { createClient } from '@/lib/supabase/server'
+import { createBrowserClient } from '@supabase/ssr'
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Cormorant_Garamond } from "next/font/google";
@@ -29,15 +30,22 @@ const getTagIcon = (tag: string) => {
     }
 };
 
-export function generateStaticParams() {
-    return projects.map((project) => ({
+export async function generateStaticParams() {
+    const supabase = createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
+    const { data: projects } = await supabase.from('projects').select('slug')
+
+    return (projects || []).map((project) => ({
         slug: project.slug,
     }));
 }
 
 export default async function ProjectPage(props: { params: Promise<{ slug: string }> }) {
     const params = await props.params;
-    const project = projects.find((p) => p.slug === params.slug);
+    const supabase = await createClient()
+    const { data: project } = await supabase.from('projects').select('*').eq('slug', params.slug).single()
 
     if (!project) {
         notFound();

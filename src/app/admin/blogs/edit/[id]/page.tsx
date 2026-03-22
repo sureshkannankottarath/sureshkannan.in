@@ -2,6 +2,7 @@ import { updateBlog } from '../../actions'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
+import ImageInputWithPreview from '@/components/admin/ImageInputWithPreview'
 
 export default async function EditBlogPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params
@@ -33,10 +34,7 @@ export default async function EditBlogPage(props: { params: Promise<{ id: string
                         <input className="w-full p-4 bg-[#FAFAFA] border border-black/10 rounded-xl focus:border-[#18181B] focus:outline-none" id="slug" name="slug" type="text" defaultValue={blog.slug} required />
                     </div>
 
-                    <div>
-                        <label className="text-xs font-bold uppercase tracking-widest text-[#18181B] mb-2 block" htmlFor="image">Cover Image URL</label>
-                        <input className="w-full p-4 bg-[#FAFAFA] border border-black/10 rounded-xl focus:border-[#18181B] focus:outline-none" id="image" name="image" type="text" defaultValue={blog.image || ""} placeholder="https://images.unsplash.com/photo-..." />
-                    </div>
+                    <ImageInputWithPreview label="Cover Image" name="image" currentImageUrl={blog.image || ""} />
 
                     <div>
                         <label className="text-xs font-bold uppercase tracking-widest text-[#18181B] mb-2 block" htmlFor="content">Content (Markdown supported)</label>

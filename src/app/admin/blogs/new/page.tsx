@@ -1,5 +1,6 @@
 import { createBlog } from '../actions'
 import Link from 'next/link'
+import ImageInputWithPreview from '@/components/admin/ImageInputWithPreview'
 
 export default function NewBlogPage() {
     return (
@@ -21,10 +22,7 @@ export default function NewBlogPage() {
                         <input className="w-full p-4 bg-[#FAFAFA] border border-black/10 rounded-xl focus:border-[#18181B] focus:outline-none" id="slug" name="slug" type="text" placeholder="my-awesome-post" required />
                     </div>
 
-                    <div>
-                        <label className="text-xs font-bold uppercase tracking-widest text-[#18181B] mb-2 block" htmlFor="image">Cover Image URL</label>
-                        <input className="w-full p-4 bg-[#FAFAFA] border border-black/10 rounded-xl focus:border-[#18181B] focus:outline-none" id="image" name="image" type="text" placeholder="https://images.unsplash.com/photo-..." />
-                    </div>
+                    <ImageInputWithPreview label="Cover Image" name="image" />
 
                     <div>
                         <label className="text-xs font-bold uppercase tracking-widest text-[#18181B] mb-2 block" htmlFor="content">Content (Markdown supported)</label>

@@ -3,14 +3,21 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
+import { uploadImage } from '@/lib/s3'
 
 export async function createBlog(formData: FormData) {
     const supabase = await createClient()
 
     const title = formData.get('title') as string
     const slug = formData.get('slug') as string
-    const image = formData.get('image') as string
+    const imageFile = formData.get('image') as File
     const content = formData.get('content') as string
+
+    let imageUrl = ''
+    if (imageFile && imageFile.type.startsWith('image/')) {
+        const uploadedUrl = await uploadImage(imageFile, 'blogs')
+        if (uploadedUrl) imageUrl = uploadedUrl
+    }
 
     // Auth check just in case
     const { data: { user } } = await supabase.auth.getUser()
@@ -19,7 +26,7 @@ export async function createBlog(formData: FormData) {
     const { error } = await supabase.from('blogs').insert({
         title,
         slug,
-        image,
+        image: imageUrl,
         content
     })
 
@@ -38,8 +45,14 @@ export async function updateBlog(id: string, formData: FormData) {
 
     const title = formData.get('title') as string
     const slug = formData.get('slug') as string
-    const image = formData.get('image') as string
+    const imageFile = formData.get('image') as File
     const content = formData.get('content') as string
+    let imageUrl = formData.get('currentImage') as string || ''
+
+    if (imageFile && imageFile.type.startsWith('image/')) {
+        const uploadedUrl = await uploadImage(imageFile, 'blogs')
+        if (uploadedUrl) imageUrl = uploadedUrl
+    }
 
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) throw new Error("Unauthorized")
@@ -47,7 +60,7 @@ export async function updateBlog(id: string, formData: FormData) {
     const { error } = await supabase.from('blogs').update({
         title,
         slug,
-        image,
+        image: imageUrl,
         content
     }).match({ id })
 

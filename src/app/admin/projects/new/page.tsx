@@ -1,5 +1,6 @@
 import { createProject } from '../actions'
 import Link from 'next/link'
+import ImageInputWithPreview from '@/components/admin/ImageInputWithPreview'
 
 export default function NewProjectPage() {
     return (
@@ -21,10 +22,7 @@ export default function NewProjectPage() {
                         <input className="w-full p-4 bg-[#FAFAFA] border border-black/10 rounded-xl focus:border-[#18181B] focus:outline-none" id="slug" name="slug" type="text" placeholder="smart-search-v3" required />
                     </div>
 
-                    <div>
-                        <label className="text-xs font-bold uppercase tracking-widest text-[#18181B] mb-2 block" htmlFor="image">Image URL</label>
-                        <input className="w-full p-4 bg-[#FAFAFA] border border-black/10 rounded-xl focus:border-[#18181B] focus:outline-none" id="image" name="image" type="text" placeholder="https://s3.idrivee2.com/..." />
-                    </div>
+                    <ImageInputWithPreview label="Project Image" name="image" />
 
                     <div>
                         <label className="text-xs font-bold uppercase tracking-widest text-[#18181B] mb-2 block" htmlFor="tags">Tags (Comma separated)</label>
