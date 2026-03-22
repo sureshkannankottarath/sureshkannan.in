@@ -29,7 +29,7 @@ export function Experience() {
                             <div className="relative group">
                                 <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-4">
                                     <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">Bobcares</h3>
-                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2020 – Present</span>
+                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2023 – Present</span>
                                 </div>
                                 <motion.div
                                     initial={{ scaleX: 0 }}
@@ -41,12 +41,12 @@ export function Experience() {
 
                                 <div className="space-y-8">
                                     <div>
-                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">AI Engineer & PM <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">2022 - Present</span></h4>
-                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Building AI-powered support systems, semantic search, and LLM infrastructure for a global managed hosting company. Leading teams to deploy scalable intelligent systems.</p>
+                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">AI R&D Team Lead – Dream Makers <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">Oct 2024 - Present</span></h4>
+                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Providing Team Leadership, Business Process Automation, and orchestrating strategic AI integration roadmaps.</p>
                                     </div>
                                     <div>
-                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Software Engineer <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">2020 - 2021</span></h4>
-                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Developed secure and resilient web applications. Focused on backend automation using Python and cloud deployments.</p>
+                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Project Manager <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">Oct 2023 - Oct 2024</span></h4>
+                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Overseeing Jira board agile frames, Proposal Preparation, and building streamlined technical deliverables setups.</p>
                                     </div>
                                 </div>
                             </div>
@@ -55,8 +55,8 @@ export function Experience() {
                         <AnimatedSection delayMs={200}>
                             <div className="relative group">
                                 <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-4">
-                                    <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">TechNova Solutions</h3>
-                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2019 – 2020</span>
+                                    <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">FineKube</h3>
+                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2020 – 2023</span>
                                 </div>
                                 <motion.div
                                     initial={{ scaleX: 0 }}
@@ -67,8 +67,8 @@ export function Experience() {
                                 ></motion.div>
 
                                 <div>
-                                    <h4 className="text-xl font-semibold text-[#18181B] mb-2">Full Stack Developer</h4>
-                                    <p className="text-[#71717A] text-base leading-relaxed font-medium">Built end-to-end data analytics and monitoring dashboards using React and Node.js.</p>
+                                    <h4 className="text-xl font-semibold text-[#18181B] mb-2">Project Manager <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">Oct 2020 - Sep 2023</span></h4>
+                                    <p className="text-[#71717A] text-base leading-relaxed font-medium">Utilized a range of project management approaches (WBS/RBS) to effectively oversee planning and implementation of complex difficult deployment rollouts to guarantee successful delivery setups.</p>
                                 </div>
                             </div>
                         </AnimatedSection>
@@ -76,8 +76,8 @@ export function Experience() {
                         <AnimatedSection delayMs={300}>
                             <div className="relative group">
                                 <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-4">
-                                    <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">InitVentures</h3>
-                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2017 – 2018</span>
+                                    <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">Calcus Technologies</h3>
+                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2017 – 2020</span>
                                 </div>
                                 <motion.div
                                     initial={{ scaleX: 0 }}
@@ -89,12 +89,12 @@ export function Experience() {
 
                                 <div className="space-y-8">
                                     <div>
-                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Junior Developer <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">2018 - 2018</span></h4>
-                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Assisted in migrating legacy systems to microservices architecture.</p>
+                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Project Manager <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">Feb 2018 - Oct 2020</span></h4>
+                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Led development and implementation of software projects using both Agile and Waterfall methodologies. Responsible for preparing proposals, and conducting technical interviews.</p>
                                     </div>
                                     <div>
-                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Intern QA <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">2017 - 2017</span></h4>
-                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Started out in QA and automated web testing.</p>
+                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Software Developer <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">Jul 2017 - Jan 2018</span></h4>
+                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Played a key role in the design and development of various web applications using PHP and MySQL. Worked closely with clients to iterate requirements and deliverables workflows.</p>
                                     </div>
                                 </div>
                             </div>

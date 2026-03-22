@@ -69,10 +69,10 @@ export function About() {
                     <AnimatedSection delayMs={100}>
                         <div className="space-y-8 text-xl md:text-3xl text-[#18181B] leading-tight font-medium font-sans">
                             <p>
-                                I am an AI Engineer & Project Manager based in Kerala, architecting intelligent systems that bridge the gap between applied research and real-world deployment.
+                                I am an <span className="font-black">R&D Lead – AI & Automation at Bobcares</span>, with 8+ years of experience bridging the gap between intelligent automation and scalable digital solutions.
                             </p>
                             <p className="text-[#71717A]">
-                                I specialize in LLM pipelines, semantic search, and robust full-stack product delivery, solving complex operational challenges.
+                                I specialize in <span className="font-semibold text-[#18181B]">AI/ML integrations</span> and translating complex business challenges into high-impact architectures, driving continuous optimization with my teams.
                             </p>
                         </div>
                     </AnimatedSection>

@@ -117,9 +117,9 @@ export function Hero() {
                 <div className="hidden md:flex absolute top-[500px] w-full px-4 md:px-12 flex-col items-end z-20 pointer-events-none">
                     <AnimatedSection delayMs={1200} className="max-w-[260px] md:max-w-[320px] text-right pointer-events-auto">
                         <p className="text-xs md:text-sm font-semibold text-[#18181B] leading-snug font-sans opacity-90 drop-shadow-sm bg-white/30 backdrop-blur-sm p-4 rounded-xl border border-white/50">
-                            Specialized in AI Engineering, <br className="hidden md:block" />
-                            Semantic Search, RAG Pipelines, <br className="hidden md:block" />
-                            and Intelligent Systems.
+                            R&D Lead – AI & Automation <br className="hidden md:block" />
+                            at Bobcares, crafting intelligent <br className="hidden md:block" />
+                            automation platforms & AI solutions.
                         </p>
                     </AnimatedSection>
                 </div>
@@ -132,8 +132,8 @@ export function Hero() {
                     </div>
 
                     <div className="text-right font-sans font-black tracking-tighter leading-[0.8] text-[#18181B] mt-8 md:mt-0 pb-1 md:pb-3 flex flex-col">
-                        <SplitText delayParams={1.2} text="AI PRODUCT" className="text-[10vw] md:text-[4rem] lg:text-[5.5rem] uppercase drop-shadow-lg" />
-                        <SplitText delayParams={1.4} text="ENGINEER" className="text-[10vw] md:text-[4rem] lg:text-[5.5rem] uppercase drop-shadow-lg" />
+                        <SplitText delayParams={1.2} text="R&D LEAD" className="text-[10vw] md:text-[4rem] lg:text-[5.5rem] uppercase drop-shadow-lg" />
+                        <SplitText delayParams={1.4} text="AI & AUTOMATION" className="text-[10vw] md:text-[3.3rem] lg:text-[4.7rem] uppercase drop-shadow-lg" />
                     </div>
                 </motion.div>
             </div>

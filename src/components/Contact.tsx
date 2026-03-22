@@ -28,17 +28,17 @@ export function Contact() {
 
                 <AnimatedSection delayMs={200}>
                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                        <a href="mailto:contact@example.com" className="px-10 py-5 bg-[#18181B] border border-transparent text-white rounded-full font-bold uppercase tracking-widest text-sm shadow-[0_10px_40px_rgba(24,24,27,0.2)] hover:scale-105 hover:bg-white hover:text-[#18181B] hover:border-[#18181B] hover:shadow-[0_15px_40px_rgba(24,24,27,0.3)] transition-all transform duration-300">
+                        <a href="mailto:sureshk4.info@gmail.com" className="px-10 py-5 bg-[#18181B] border border-transparent text-white rounded-full font-bold uppercase tracking-widest text-sm shadow-[0_10px_40px_rgba(24,24,27,0.2)] hover:scale-105 hover:bg-white hover:text-[#18181B] hover:border-[#18181B] hover:shadow-[0_15px_40px_rgba(24,24,27,0.3)] transition-all transform duration-300">
                             Start a Conversation
                         </a>
                         <div className="flex items-center gap-4">
-                            <a href="https://linkedin.com/in/YOUR_LINKEDIN_STUB" target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-white hover:border-[#0077b5] text-[#18181B] hover:text-[#0077b5] hover:shadow-[0_4px_15px_rgba(0,119,181,0.2)] transition-all duration-300">
+                            <a href="https://www.linkedin.com/in/skk369/" target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-white hover:border-[#0077b5] text-[#18181B] hover:text-[#0077b5] hover:shadow-[0_4px_15px_rgba(0,119,181,0.2)] transition-all duration-300">
                                 <FaLinkedinIn className="w-5 h-5" />
                             </a>
-                            <a href="https://github.com/YOUR_GITHUB_STUB" target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-[#18181B] hover:border-[#18181B] text-[#18181B] hover:text-white shadow-sm transition-all duration-300">
+                            <a href="https://github.com/sureshkannankottarath" target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-[#18181B] hover:border-[#18181B] text-[#18181B] hover:text-white shadow-sm transition-all duration-300">
                                 <FaGithub className="w-5 h-5" />
                             </a>
-                            <a href="https://pinterest.com/YOUR_PINTEREST_STUB" target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-white hover:border-[#E60023] text-[#18181B] hover:text-[#E60023] hover:shadow-[0_4px_15px_rgba(230,0,35,0.2)] transition-all duration-300">
+                            <a href="https://in.pinterest.com/sureshk4info/" target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-white hover:border-[#E60023] text-[#18181B] hover:text-[#E60023] hover:shadow-[0_4px_15px_rgba(230,0,35,0.2)] transition-all duration-300">
                                 <FaPinterestP className="w-5 h-5" />
                             </a>
                         </div>
