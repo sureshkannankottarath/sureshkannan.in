@@ -21,7 +21,7 @@ export function Hero() {
         >
 
             {/* Stable Layout Wrapper - Ensures alignment never breaks on weird screen heights */}
-            <div className="relative w-full max-w-[1400px] h-[850px] mx-auto flex-shrink-0">
+            <div className="relative w-full max-w-[1400px] h-[100dvh] md:h-[850px] mx-auto flex-shrink-0">
 
                 {/* Top Text: "Hey, there" */}
                 <div className="absolute top-[180px] md:top-[160px] w-full flex justify-center items-center gap-6 md:gap-[120px] lg:gap-[200px] z-0 pointer-events-none">

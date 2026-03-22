@@ -12,10 +12,10 @@ export function Contact() {
             <div className="max-w-4xl mx-auto px-6 lg:px-12 w-full flex-grow flex flex-col justify-center text-center">
                 <AnimatedSection>
                     <div className="mb-8">
-                        <h2 className="text-[5.5rem] lg:text-[8rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-5">
+                        <h2 className="text-[4rem] sm:text-[5.5rem] lg:text-[8rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-5">
                             LET'S
                             <br />
-                            <span className={`text-[4.5rem] lg:text-[7rem] font-light lowercase text-transparent bg-clip-text bg-gradient-to-r from-[#71717A] via-[#38BDF8] to-[#18181B] tracking-normal ${cormorant.className}`}>talk.</span>
+                            <span className={`text-[3.5rem] sm:text-[4.5rem] lg:text-[7rem] font-light lowercase text-transparent bg-clip-text bg-gradient-to-r from-[#71717A] via-[#38BDF8] to-[#18181B] tracking-normal ${cormorant.className}`}>talk.</span>
                         </h2>
                     </div>
                 </AnimatedSection>

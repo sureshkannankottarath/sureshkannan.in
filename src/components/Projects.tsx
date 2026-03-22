@@ -31,10 +31,10 @@ export function Projects() {
             <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">
                 <AnimatedSection>
                     <div className="mb-10 lg:mb-14 text-center">
-                        <h2 className="text-[4.5rem] lg:text-[6rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8]">
+                        <h2 className="text-[3.5rem] sm:text-[4.5rem] lg:text-[6rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8]">
                             SELECTED
                             <br />
-                            <span className={`text-[3.5rem] lg:text-[5rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>works.</span>
+                            <span className={`text-[3rem] sm:text-[3.5rem] lg:text-[5rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>works.</span>
                         </h2>
                     </div>
                 </AnimatedSection>

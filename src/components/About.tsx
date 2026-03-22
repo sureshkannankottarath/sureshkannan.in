@@ -37,10 +37,10 @@ export function About() {
                 {/* Left Column: Huge Editorial Header */}
                 <div className="w-full md:w-1/3">
                     <AnimatedSection>
-                        <h2 className="text-[5rem] lg:text-[7rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-4">
+                        <h2 className="text-[4rem] sm:text-[5rem] lg:text-[7rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-4">
                             ABOUT
                             <br />
-                            <span className={`text-[4rem] lg:text-[6rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>me.</span>
+                            <span className={`text-[3.5rem] sm:text-[4rem] lg:text-[6rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>me.</span>
                         </h2>
                     </AnimatedSection>
                 </div>

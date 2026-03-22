@@ -9,12 +9,12 @@ export function Experience() {
             <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex flex-col md:flex-row gap-16 md:gap-24 items-start">
 
                 {/* Left Column: Huge Editorial Header */}
-                <div className="w-full md:w-1/3 sticky top-32">
+                <div className="w-full md:w-1/3 md:sticky md:top-32 mb-12 md:mb-0 z-10">
                     <AnimatedSection>
-                        <h2 className="text-[5rem] lg:text-[7rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-4">
+                        <h2 className="text-[4rem] sm:text-[5rem] lg:text-[7rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-4">
                             CAREER
                             <br />
-                            <span className={`text-[4rem] lg:text-[6rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>path.</span>
+                            <span className={`text-[3.5rem] sm:text-[4rem] lg:text-[6rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>path.</span>
                         </h2>
                     </AnimatedSection>
                 </div>
