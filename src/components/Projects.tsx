@@ -6,7 +6,6 @@ import { Cormorant_Garamond } from "next/font/google";
 import { SiPython, SiNextdotjs, SiOpenai, SiFastapi, SiDocker } from "react-icons/si";
 import { FaDatabase, FaRobot, FaBrain, FaMagnifyingGlass, FaLeaf, FaShieldHalved } from "react-icons/fa6";
 import React, { useRef } from "react";
-import projects from "../data/projects.json";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
 
@@ -110,7 +109,7 @@ export const ProjectCard = ({ project, index }: { project: any, index: number })
     );
 };
 
-export function Projects() {
+export function Projects({ projects = [] }: { projects?: any[] }) {
     return (
         <section id="projects" className="min-h-[100dvh] w-full flex flex-col justify-center relative bg-white border-t border-black/5 snap-start snap-always py-24 md:py-0">
             <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">

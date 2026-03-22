@@ -37,7 +37,8 @@ export default async function AdminBlogsList() {
                                         <td className="p-4 font-semibold">{blog.title}</td>
                                         <td className="p-4 text-gray-500 text-sm">{blog.slug}</td>
                                         <td className="p-4 text-gray-500 text-sm">{new Date(blog.created_at).toLocaleDateString()}</td>
-                                        <td className="p-4">
+                                        <td className="p-4 flex items-center gap-4">
+                                            <Link href={`/admin/blogs/edit/${blog.id}`} className="text-xs font-bold uppercase tracking-widest text-[#71717A] hover:text-[#18181B] cursor-pointer">Edit</Link>
                                             <form action={deleteBlog.bind(null, blog.id)}>
                                                 <button type="submit" className="text-xs font-bold uppercase tracking-widest text-red-500 hover:text-red-700 cursor-pointer">Delete</button>
                                             </form>

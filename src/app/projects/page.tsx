@@ -1,18 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Nav } from "@/components/Nav";
 import { Contact } from "@/components/Contact";
 import { ProjectCard } from "@/components/Projects";
-import projectsData from "@/data/projects.json";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { Cormorant_Garamond } from "next/font/google";
 import { Search } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
 
 export default function ProjectsList() {
     const [searchQuery, setSearchQuery] = useState("");
+    const [projectsData, setProjectsData] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            const supabase = createClient();
+            const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
+            if (data) setProjectsData(data);
+        };
+        fetchProjects();
+    }, []);
 
     const filteredProjects = projectsData.filter((project) => {
         const query = searchQuery.toLowerCase();

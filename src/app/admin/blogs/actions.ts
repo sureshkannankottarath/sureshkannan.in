@@ -33,6 +33,35 @@ export async function createBlog(formData: FormData) {
     redirect('/admin/blogs')
 }
 
+export async function updateBlog(id: string, formData: FormData) {
+    const supabase = await createClient()
+
+    const title = formData.get('title') as string
+    const slug = formData.get('slug') as string
+    const image = formData.get('image') as string
+    const content = formData.get('content') as string
+
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) throw new Error("Unauthorized")
+
+    const { error } = await supabase.from('blogs').update({
+        title,
+        slug,
+        image,
+        content
+    }).match({ id })
+
+    if (error) {
+        console.error("Error updating blog:", error)
+        throw new Error(error.message)
+    }
+
+    revalidatePath('/blogs')
+    revalidatePath(`/blogs/${slug}`)
+    revalidatePath('/admin/blogs')
+    redirect('/admin/blogs')
+}
+
 export async function deleteBlog(id: string) {
     const supabase = await createClient()
 
