@@ -86,7 +86,7 @@ export function Hero() {
             <div className="relative w-full max-w-[1400px] h-[100dvh] md:h-[850px] mx-auto flex-shrink-0">
 
                 {/* Top Text: "Hey, there" */}
-                <motion.div style={{ x: textLayerX, y: textLayerY }} className="absolute top-[100px] sm:top-[120px] md:top-[160px] w-full flex justify-center items-center gap-6 md:gap-[120px] lg:gap-[200px] z-0 pointer-events-none">
+                <motion.div style={{ x: textLayerX, y: textLayerY }} className="absolute top-[60px] sm:top-[120px] md:top-[160px] w-full flex justify-center items-center gap-6 md:gap-[120px] lg:gap-[200px] z-0 pointer-events-none">
                     <SplitText delayParams={0.2} text="Hey," className={`text-[25vw] sm:text-[8rem] lg:text-[11rem] text-[#18181B] transform -rotate-2 inline-block tracking-tighter leading-none ${cormorant.className} font-light drop-shadow-sm`} />
                     <SplitText delayParams={0.4} text="there" className={`text-[25vw] sm:text-[8rem] lg:text-[11rem] text-[#18181B] transform -rotate-1 inline-block tracking-tighter leading-none ${cormorant.className} font-light drop-shadow-sm`} />
                 </motion.div>
@@ -125,15 +125,15 @@ export function Hero() {
                 </div>
 
                 {/* Bottom Titles - Locked to exact bottom of wrapper */}
-                <motion.div style={{ x: textLayerX, y: textLayerY }} className="absolute bottom-4 md:bottom-12 w-full flex flex-col md:flex-row justify-between items-end z-20 pointer-events-none px-4 md:px-0">
+                <motion.div style={{ x: textLayerX, y: textLayerY }} className="absolute bottom-16 md:bottom-12 w-full flex flex-col md:flex-row justify-between items-end z-20 pointer-events-none px-4 md:px-0">
                     <div className="text-left font-sans font-black tracking-tighter leading-[0.8] text-[#18181B] flex flex-col">
-                        <SplitText delayParams={0.8} text="I AM" className="text-[20vw] md:text-[6.5rem] lg:text-[9rem] uppercase drop-shadow-lg" />
-                        <SplitText delayParams={1.0} text="SURESH" className="text-[20vw] md:text-[6.5rem] lg:text-[9rem] uppercase drop-shadow-lg" />
+                        <SplitText delayParams={0.8} text="I AM" className="text-[15vw] md:text-[6.5rem] lg:text-[9rem] uppercase drop-shadow-lg" />
+                        <SplitText delayParams={1.0} text="SURESH" className="text-[15vw] md:text-[6.5rem] lg:text-[9rem] uppercase drop-shadow-lg" />
                     </div>
 
-                    <div className="text-right font-sans font-black tracking-tighter leading-[0.8] text-[#18181B] mt-8 md:mt-0 pb-1 md:pb-3 flex flex-col">
-                        <SplitText delayParams={1.2} text="R&D LEAD" className="text-[10vw] md:text-[4rem] lg:text-[5.5rem] uppercase drop-shadow-lg" />
-                        <SplitText delayParams={1.4} text="AI & AUTOMATION" className="text-[10vw] md:text-[3.3rem] lg:text-[4.7rem] uppercase drop-shadow-lg" />
+                    <div className="text-right font-sans font-black tracking-tighter leading-[0.8] text-[#18181B] mt-6 md:mt-0 pb-1 md:pb-3 flex flex-col">
+                        <SplitText delayParams={1.2} text="R&D LEAD" className="text-[8vw] md:text-[4rem] lg:text-[5.5rem] uppercase drop-shadow-lg" />
+                        <SplitText delayParams={1.4} text="AI & AUTOMATION" className="text-[8vw] md:text-[3.3rem] lg:text-[4.7rem] uppercase drop-shadow-lg" />
                     </div>
                 </motion.div>
             </div>
