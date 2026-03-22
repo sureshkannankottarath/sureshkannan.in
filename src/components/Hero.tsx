@@ -70,7 +70,7 @@ export function Hero() {
         setMounted(true);
     }, []);
 
-    if (!mounted) return <section className="min-h-[100dvh] bg-[#FAFAFA]" />;
+    if (!mounted) return <section className="min-h-[100dvh] bg-[#FAFAFA] snap-start" />;
 
     return (
         <section
