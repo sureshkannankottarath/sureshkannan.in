@@ -24,7 +24,7 @@ export function Hero() {
             <div className="relative w-full max-w-[1400px] h-[100dvh] md:h-[850px] mx-auto flex-shrink-0">
 
                 {/* Top Text: "Hey, there" */}
-                <div className="absolute top-[180px] md:top-[160px] w-full flex justify-center items-center gap-6 md:gap-[120px] lg:gap-[200px] z-0 pointer-events-none">
+                <div className="absolute top-[100px] sm:top-[120px] md:top-[160px] w-full flex justify-center items-center gap-6 md:gap-[120px] lg:gap-[200px] z-0 pointer-events-none">
                     <AnimatedSection delayMs={100}>
                         <span className={`text-[25vw] sm:text-[8rem] lg:text-[11rem] text-[#18181B] transform -rotate-2 inline-block tracking-tighter leading-none ${cormorant.className} font-light`}>
                             Hey,
@@ -54,7 +54,7 @@ export function Hero() {
                 <div className="absolute bottom-0 left-0 right-0 h-40 md:h-64 bg-gradient-to-t from-[#FAFAFA] to-transparent z-[15] pointer-events-none" />
 
                 {/* Middle Floating Overlays */}
-                <div className="absolute top-[55%] sm:top-[60%] md:top-[500px] w-full px-4 md:px-12 flex flex-col items-end z-20 pointer-events-none">
+                <div className="hidden md:flex absolute top-[500px] w-full px-4 md:px-12 flex-col items-end z-20 pointer-events-none">
 
                     {/* Description - Right Edge */}
                     <AnimatedSection delayMs={500} className="max-w-[260px] md:max-w-[320px] text-right pointer-events-auto">
