@@ -29,7 +29,7 @@ export default function ProjectsList() {
         return (
             project.title.toLowerCase().includes(query) ||
             project.description.toLowerCase().includes(query) ||
-            project.tags.some(tag => tag.toLowerCase().includes(query))
+            project.tags.some((tag: string) => tag.toLowerCase().includes(query))
         );
     });
 
