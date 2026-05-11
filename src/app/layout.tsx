@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -32,6 +33,17 @@ export default function RootLayout({
         className={`${inter.variable} font-sans antialiased selection:bg-accent-blue/30 selection:text-text-primary h-full`}
       >
         {children}
+        <Script id="mouseflow" strategy="afterInteractive">
+          {`
+            window._mfq = window._mfq || [];
+            (function() {
+              var mf = document.createElement("script");
+              mf.type = "text/javascript"; mf.defer = true;
+              mf.src = "//cdn.mouseflow.com/projects/2bca941f-26d1-4a9a-be54-eb15ccf213bc.js";
+              document.getElementsByTagName("head")[0].appendChild(mf);
+            })();
+          `}
+        </Script>
       </body>
     </html>
   );
