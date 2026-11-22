@@ -8,6 +8,9 @@ import { uploadImage } from '@/lib/s3'
 export async function createBlog(formData: FormData) {
     const supabase = await createClient()
 
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) throw new Error("Unauthorized")
+
     const title = formData.get('title') as string
     const slug = formData.get('slug') as string
     const imageFile = formData.get('image') as File
@@ -18,10 +21,6 @@ export async function createBlog(formData: FormData) {
         const uploadedUrl = await uploadImage(imageFile, 'blogs')
         if (uploadedUrl) imageUrl = uploadedUrl
     }
-
-    // Auth check just in case
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) throw new Error("Unauthorized")
 
     const { error } = await supabase.from('blogs').insert({
         title,
@@ -43,6 +42,9 @@ export async function createBlog(formData: FormData) {
 export async function updateBlog(id: string, formData: FormData) {
     const supabase = await createClient()
 
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) throw new Error("Unauthorized")
+
     const title = formData.get('title') as string
     const slug = formData.get('slug') as string
     const imageFile = formData.get('image') as File
@@ -53,9 +55,6 @@ export async function updateBlog(id: string, formData: FormData) {
         const uploadedUrl = await uploadImage(imageFile, 'blogs')
         if (uploadedUrl) imageUrl = uploadedUrl
     }
-
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) throw new Error("Unauthorized")
 
     const { error } = await supabase.from('blogs').update({
         title,
@@ -78,11 +77,15 @@ export async function updateBlog(id: string, formData: FormData) {
 export async function deleteBlog(id: string) {
     const supabase = await createClient()
 
-    // Auth check just in case
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) throw new Error("Unauthorized")
 
-    await supabase.from('blogs').delete().match({ id })
+    const { error } = await supabase.from('blogs').delete().match({ id })
+
+    if (error) {
+        console.error("Error deleting blog:", error)
+        throw new Error(error.message)
+    }
 
     revalidatePath('/blogs')
     revalidatePath('/admin/blogs')

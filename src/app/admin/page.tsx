@@ -28,8 +28,7 @@ export default async function AdminDashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="bg-white p-8 rounded-2xl border border-black/5 shadow-sm flex flex-col items-start">
                         <h2 className="text-xl font-bold mb-4">Manage Projects</h2>
-                        <p className="text-[#71717A] mb-8">Create, edit, and delete your portfolio projects.</p>
-                        <Link href="/admin/projects" className="mt-auto px-6 py-3 bg-[#18181B] text-white rounded-full text-xs font-bold uppercase tracking-widest hover:bg-black/80 transition-colors">Go to Projects</Link>
+                        <p className="text-[#71717A]">Projects are managed in code. Edit <code className="font-mono text-sm">src/data/projects.ts</code> and redeploy.</p>
                     </div>
 
                     <div className="bg-white p-8 rounded-2xl border border-black/5 shadow-sm flex flex-col items-start">

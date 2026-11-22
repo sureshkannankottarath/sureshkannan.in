@@ -1,22 +1,28 @@
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
+import { s3Client, PUBLIC_ASSET_FOLDERS, IMAGE_TYPES } from "@/lib/s3";
+
+const notFound = () => NextResponse.json({ error: "Not found" }, { status: 404 });
 
 export async function GET(request: Request, props: { params: Promise<{ key: string[] }> }) {
     const params = await props.params;
-    const key = params.key.join('/');
+    const segments = params.key ?? [];
 
-    if (!key) {
-        return NextResponse.json({ error: "Key is required" }, { status: 400 });
+    // Only serve images from the public folders, and reject traversal or empty segments
+    if (
+        segments.length < 2 ||
+        !PUBLIC_ASSET_FOLDERS.includes(segments[0]) ||
+        segments.some(s => !s || s === '.' || s === '..' || s.includes('\\'))
+    ) {
+        return notFound();
     }
 
-    const s3Client = new S3Client({
-        endpoint: process.env.IDRIVEE2_ENDPOINT,
-        region: process.env.IDRIVEE2_REGION,
-        credentials: {
-            accessKeyId: process.env.IDRIVEE2_ACCESS_KEY_ID!,
-            secretAccessKey: process.env.IDRIVEE2_SECRET_ACCESS_KEY!,
-        },
-    });
+    const key = segments.join('/');
+    const ext = key.split('.').pop()?.toLowerCase() ?? '';
+    const contentType = IMAGE_TYPES[ext];
+    if (!contentType) {
+        return notFound();
+    }
 
     const command = new GetObjectCommand({
         Bucket: process.env.IDRIVEE2_BUCKET!,
@@ -26,15 +32,22 @@ export async function GET(request: Request, props: { params: Promise<{ key: stri
     try {
         const response = await s3Client.send(command);
         const buffer = await response.Body?.transformToByteArray();
+        if (!buffer) return notFound();
 
-        return new Response(buffer as any, {
+        return new Response(Buffer.from(buffer), {
             headers: {
-                "Content-Type": response.ContentType || "image/jpeg",
+                // Derived from the extension, not the stored metadata
+                "Content-Type": contentType,
+                "X-Content-Type-Options": "nosniff",
                 "Cache-Control": "public, max-age=3600"
             }
         });
-    } catch (e: any) {
-        console.error("PROXY_ERROR:", e.message);
-        return NextResponse.json({ error: e.message }, { status: 500 });
+    } catch (e: unknown) {
+        const name = (e as { name?: string })?.name;
+        if (name === 'NoSuchKey' || name === 'NotFound') {
+            return notFound();
+        }
+        console.error("PROXY_ERROR:", e);
+        return NextResponse.json({ error: "Failed to load asset" }, { status: 500 });
     }
 }
