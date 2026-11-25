@@ -1,25 +1,46 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Fraunces, Schibsted_Grotesk, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
   display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  axes: ["SOFT", "WONK", "opsz"],
+});
+
+const schibsted = Schibsted_Grotesk({
+  variable: "--font-schibsted",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
-  title: "Suresh Kannan K | AI Engineer & Project Manager",
+  metadataBase: new URL("https://sureshkannan.in"),
+  title: "Suresh Kannan | Technical Project Manager, AI & Automation",
   description:
-    "Portfolio of Suresh Kannan K, AI Engineer based in Kerala building production RAG systems and AI agents.",
+    "Suresh Kannan is a Technical Project Manager and R&D Team Lead in Kochi, turning ambiguous ideas into shipped AI products, automation and software platforms.",
   openGraph: {
-    title: "Suresh Kannan K | AI Engineer",
-    description: "Building intelligent systems, RAG pipelines, and full-stack products.",
+    title: "Suresh Kannan | From chaos to delivery",
+    description: "Technical Project Manager & R&D Lead, AI & Automation. 8+ years shipping software.",
+    url: "https://sureshkannan.in",
     type: "website",
-    locale: "en_US",
+    locale: "en_IN",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0D0A07",
 };
 
 export default function RootLayout({
@@ -28,10 +49,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth snap-y snap-mandatory scroll-p-0 overflow-x-hidden">
-      <body
-        className={`${inter.variable} font-sans antialiased selection:bg-accent-blue/30 selection:text-text-primary h-full`}
-      >
+    <html lang="en" className={`${fraunces.variable} ${schibsted.variable} ${jetbrains.variable}`}>
+      <body className="antialiased">
         {children}
         <Script id="mouseflow" strategy="afterInteractive">
           {`

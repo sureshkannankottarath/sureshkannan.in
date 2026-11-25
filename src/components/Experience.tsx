@@ -1,106 +1,91 @@
 "use client";
 
-import { AnimatedSection } from "./ui/AnimatedSection";
-import { Cormorant_Garamond } from "next/font/google";
-import { motion } from "framer-motion";
-
-const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
+import { experience, toolkit } from "@/data/profile";
+import { Reveal, SplitReveal, Rule } from "./ui/Reveal";
 
 export function Experience() {
     return (
-        <section id="experience" className="min-h-[100dvh] w-full flex flex-col justify-center relative bg-[#FAFAFA] border-t border-black/5 snap-start snap-always py-24 md:py-0">
-            <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex flex-col md:flex-row gap-16 md:gap-24 items-start">
+        <section id="experience" data-gl-from="1" data-gl-dim="0.28" className="relative px-5 py-32 md:px-10 md:py-44">
+            <div className="mx-auto max-w-[1600px]">
+                <div className="grid gap-12 lg:grid-cols-12">
+                    <div className="lg:col-span-4">
+                        <div className="lg:sticky lg:top-32">
+                            <span className="eyebrow mb-6 block">(04) Career</span>
+                            <SplitReveal as="h2" text="Eight years, one craft" className="display text-[14vw] lg:text-[5.6vw]" />
+                            <Reveal delay={0.2} className="mt-8 max-w-xs text-bone-dim">
+                                From writing PHP to leading an AI &amp; R&amp;D team, every role has been about the same thing: getting the right thing built, well, on time.
+                            </Reveal>
+                        </div>
+                    </div>
 
-                {/* Left Column: Huge Editorial Header */}
-                <div className="w-full md:w-1/3 md:sticky md:top-32 mb-12 md:mb-0 z-10">
-                    <AnimatedSection>
-                        <h2 className="text-[4rem] sm:text-[5rem] lg:text-[7rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-4">
-                            CAREER
-                            <br />
-                            <span className={`text-[3.5rem] sm:text-[4rem] lg:text-[6rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>path.</span>
-                        </h2>
-                    </AnimatedSection>
-                </div>
-
-                {/* Right Column: Content */}
-                <div className="w-full md:w-2/3">
-                    <div className="space-y-16">
-                        <AnimatedSection delayMs={100}>
-                            <div className="relative group">
-                                <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-4">
-                                    <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">Bobcares</h3>
-                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2023 – Present</span>
-                                </div>
-                                <motion.div
-                                    initial={{ scaleX: 0 }}
-                                    whileInView={{ scaleX: 1 }}
-                                    viewport={{ once: true, margin: "-50px" }}
-                                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                                    className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500 origin-left"
-                                ></motion.div>
-
-                                <div className="space-y-8">
-                                    <div>
-                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">AI R&D Team Lead – Dream Makers <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">Oct 2024 - Present</span></h4>
-                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Providing Team Leadership, Business Process Automation, and orchestrating strategic AI integration roadmaps.</p>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Project Manager <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">Oct 2023 - Oct 2024</span></h4>
-                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Overseeing Jira board agile frames, Proposal Preparation, and building streamlined technical deliverables setups.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </AnimatedSection>
-
-                        <AnimatedSection delayMs={200}>
-                            <div className="relative group">
-                                <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-4">
-                                    <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">FineKube</h3>
-                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2020 – 2023</span>
-                                </div>
-                                <motion.div
-                                    initial={{ scaleX: 0 }}
-                                    whileInView={{ scaleX: 1 }}
-                                    viewport={{ once: true, margin: "-50px" }}
-                                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                                    className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500 origin-left"
-                                ></motion.div>
-
-                                <div>
-                                    <h4 className="text-xl font-semibold text-[#18181B] mb-2">Project Manager <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">Oct 2020 - Sep 2023</span></h4>
-                                    <p className="text-[#71717A] text-base leading-relaxed font-medium">Utilized a range of project management approaches (WBS/RBS) to effectively oversee planning and implementation of complex difficult deployment rollouts to guarantee successful delivery setups.</p>
-                                </div>
-                            </div>
-                        </AnimatedSection>
-
-                        <AnimatedSection delayMs={300}>
-                            <div className="relative group">
-                                <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-4">
-                                    <h3 className="text-3xl font-bold text-[#18181B] uppercase tracking-tight">Calcus Technologies</h3>
-                                    <span className="text-sm font-semibold text-[#71717A] tracking-widest uppercase mt-2 md:mt-0">2017 – 2020</span>
-                                </div>
-                                <motion.div
-                                    initial={{ scaleX: 0 }}
-                                    whileInView={{ scaleX: 1 }}
-                                    viewport={{ once: true, margin: "-50px" }}
-                                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                                    className="h-px w-full bg-black/10 mb-6 group-hover:bg-[#BAE6FD] transition-colors duration-500 origin-left"
-                                ></motion.div>
-
-                                <div className="space-y-8">
-                                    <div>
-                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Project Manager <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">Feb 2018 - Oct 2020</span></h4>
-                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Led development and implementation of software projects using both Agile and Waterfall methodologies. Responsible for preparing proposals, and conducting technical interviews.</p>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-xl font-semibold text-[#18181B] mb-2">Software Developer <span className="text-sm font-medium text-[#71717A] ml-2 font-mono">Jul 2017 - Jan 2018</span></h4>
-                                        <p className="text-[#71717A] text-base leading-relaxed font-medium">Played a key role in the design and development of various web applications using PHP and MySQL. Worked closely with clients to iterate requirements and deliverables workflows.</p>
+                    <div className="lg:col-span-8">
+                        {experience.map((job, i) => (
+                            <article key={job.company} className="group">
+                                <Rule delay={i * 0.1} />
+                                <div className="grid grid-cols-1 gap-6 py-10 md:grid-cols-8 md:py-14">
+                                    <Reveal className="md:col-span-3">
+                                        <span className="font-mono text-sm text-amber">{job.years}</span>
+                                        <h3 className="display mt-3 text-4xl transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-2 md:text-5xl">
+                                            {job.company}
+                                        </h3>
+                                        <span className="eyebrow mt-3 block">{job.place}</span>
+                                    </Reveal>
+                                    <div className="flex flex-col gap-10 md:col-span-5">
+                                        {job.roles.map((role, j) => (
+                                            <Reveal key={role.title} delay={0.1 + j * 0.1}>
+                                                <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+                                                    <h4 className="text-xl text-bone">{role.title}</h4>
+                                                    <span className="eyebrow">{role.period}</span>
+                                                </div>
+                                                <ul className="flex flex-col gap-3">
+                                                    {role.points.map((pt) => (
+                                                        <li key={pt} className="flex gap-3 leading-relaxed text-bone-dim">
+                                                            <span className="mt-[0.7em] h-px w-4 shrink-0 bg-amber/70" />
+                                                            {pt}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </Reveal>
+                                        ))}
                                     </div>
                                 </div>
-                            </div>
-                        </AnimatedSection>
+                            </article>
+                        ))}
+                        <Rule />
                     </div>
                 </div>
+            </div>
+        </section>
+    );
+}
+
+function MarqueeRow({ items, reverse = false, duration }: { items: string[]; reverse?: boolean; duration: number }) {
+    // Rendered twice so the -50% translate loops seamlessly
+    const run = [...items, ...items];
+    return (
+        <div className="flex overflow-hidden whitespace-nowrap [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
+            <div className="marquee-track flex shrink-0 items-center" data-reverse={reverse ? "" : undefined} style={{ ["--marquee-duration" as string]: `${duration}s` }}>
+                {run.map((item, i) => (
+                    <span key={i} className="flex items-center">
+                        <span className={`display px-6 text-[11vw] leading-none md:px-10 md:text-[6vw] ${i % 2 ? "display-italic text-outline" : "text-bone"}`}>{item}</span>
+                        <span className="text-2xl text-amber md:text-4xl">✳</span>
+                    </span>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export function Toolkit() {
+    return (
+        <section aria-label="Toolkit" data-gl-from="2" data-gl-dim="0.35" className="relative overflow-hidden py-24 md:py-36">
+            <div className="mx-auto mb-12 flex max-w-[1600px] justify-between px-5 md:px-10">
+                <span className="eyebrow">(05) Toolkit</span>
+                <span className="eyebrow hidden md:inline">Process · AI · Engineering</span>
+            </div>
+            <div className="flex flex-col gap-4 md:gap-6">
+                <MarqueeRow items={toolkit[0]} duration={60} />
+                <MarqueeRow items={toolkit[1]} duration={70} reverse />
             </div>
         </section>
     );

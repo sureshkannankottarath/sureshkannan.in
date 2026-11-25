@@ -1,146 +1,134 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { AnimatedSection } from "./ui/AnimatedSection";
-import { Cormorant_Garamond } from "next/font/google";
-import { getProxiedImage } from "@/lib/image";
-import { SiPython, SiNextdotjs, SiOpenai, SiFastapi, SiDocker } from "react-icons/si";
-import { FaDatabase, FaRobot, FaBrain, FaMagnifyingGlass, FaLeaf, FaShieldHalved } from "react-icons/fa6";
-import React, { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { getProxiedImage } from "@/lib/image";
+import type { Project } from "@/data/projects";
+import { Reveal, SplitReveal, Rule } from "./ui/Reveal";
 
-const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
+// Stand-in artwork for projects without a screenshot: a typographic plate
+export function ProjectPlate({ project, className = "" }: { project: Project; className?: string }) {
+    return (
+        <div className={`@container relative h-full w-full overflow-hidden bg-ink-3 ${className}`}>
+            <div className="absolute inset-0 bg-[radial-gradient(70%_80%_at_85%_10%,rgba(232,162,58,0.55),transparent_60%),radial-gradient(60%_60%_at_0%_100%,rgba(210,84,42,0.35),transparent_65%)]" />
+            <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(242,232,213,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(242,232,213,0.1)_1px,transparent_1px)] [background-size:6cqw_6cqw]" />
+            {/* Orbit motif echoing the WebGL ring */}
+            <div className="absolute right-[-12cqw] top-[-18cqw] aspect-square w-[62cqw] rounded-full border border-bone/25" />
+            <div className="absolute right-[-2cqw] top-[-8cqw] aspect-square w-[42cqw] rounded-full border border-bone/15" />
+            <span className="eyebrow absolute left-[5cqw] top-[5cqw] !text-[max(0.55rem,2cqw)] !text-bone">{project.category}</span>
+            <span className="display-italic absolute inset-x-[5cqw] bottom-[4cqw] text-[12cqw] leading-[0.9] text-bone">{project.title}</span>
+        </div>
+    );
+}
 
-export const getTagIcon = (tag: string) => {
-    switch (tag.toLowerCase()) {
-        case "rag": return <FaBrain className="w-4 h-4 text-[#8B5CF6]" />;
-        case "python": return <SiPython className="w-4 h-4 text-[#3776AB]" />;
-        case "chromadb": return <FaDatabase className="w-4 h-4 text-[#FF5733]" />;
-        case "qwen": return <FaRobot className="w-4 h-4 text-[#3B82F6]" />;
-        case "next.js": return <SiNextdotjs className="w-4 h-4 text-[#000000]" />;
-        case "openai": return <SiOpenai className="w-4 h-4 text-[#412991]" />;
-        case "fastapi": return <SiFastapi className="w-4 h-4 text-[#009688]" />;
-        case "semantic search": return <FaMagnifyingGlass className="w-4 h-4 text-[#4285F4]" />;
-        case "docker": return <SiDocker className="w-4 h-4 text-[#2496ED]" />;
-        case "celery": return <FaLeaf className="w-4 h-4 text-[#37A853]" />;
-        case "security": return <FaShieldHalved className="w-4 h-4 text-[#EF4444]" />;
-        default: return <span className="text-[10px] font-bold uppercase">{tag}</span>;
-    }
-};
+export function ProjectVisual({ project, sizes, priority = false }: { project: Project; sizes: string; priority?: boolean }) {
+    if (!project.image) return <ProjectPlate project={project} />;
+    return <Image src={getProxiedImage(project.image)} alt={project.title} fill sizes={sizes} priority={priority} className="object-cover object-top" />;
+}
 
-export const ProjectCard = ({ project, index, showTags = true }: { project: any, index: number, showTags?: boolean }) => {
-    const cardRef = useRef<HTMLDivElement>(null);
+// Floating preview that trails the cursor over the list (desktop only)
+function HoverPreview({ project }: { project: Project | null }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
+    const sx = useSpring(x, { stiffness: 180, damping: 22, mass: 0.6 });
+    const sy = useSpring(y, { stiffness: 180, damping: 22, mass: 0.6 });
 
-    const mouseXSpring = useSpring(x);
-    const mouseYSpring = useSpring(y);
-
-    // Reverse logic: tilting towards mouse
-    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
-    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!cardRef.current) return;
-        const rect = cardRef.current.getBoundingClientRect();
-
-        const width = rect.width;
-        const height = rect.height;
-
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-
-        const xPct = mouseX / width - 0.5;
-        const yPct = mouseY / height - 0.5;
-
-        x.set(xPct);
-        y.set(yPct);
-    };
-
-    const handleMouseLeave = () => {
-        x.set(0);
-        y.set(0);
-    };
+    useEffect(() => {
+        const onMove = (e: PointerEvent) => {
+            x.set(e.clientX);
+            y.set(e.clientY);
+        };
+        window.addEventListener("pointermove", onMove, { passive: true });
+        return () => window.removeEventListener("pointermove", onMove);
+    }, [x, y]);
 
     return (
-        <AnimatedSection delayMs={index * 150} className="perspective-1000">
-            <Link href={`/projects/${project.slug}`} className="block h-full">
-                <motion.div
-                    ref={cardRef}
-                    onMouseMove={handleMouseMove}
-                    onMouseLeave={handleMouseLeave}
-                    style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                    className="group cursor-pointer flex flex-col h-full bg-white p-4 lg:p-6 rounded-2xl border border-black/5 hover:border-black/10 transition-colors duration-500 will-change-transform"
-                >
-                    {/* 3D Popping Image */}
+        <motion.div style={{ x: sx, y: sy }} className="pointer-events-none fixed left-0 top-0 z-40 hidden [@media(pointer:fine)]:block">
+            <AnimatePresence>
+                {project && (
                     <motion.div
-                        style={{ transform: "translateZ(40px)" }}
-                        className="relative w-full aspect-[4/3] mb-6 rounded-xl overflow-hidden bg-[#FAFAFA] border border-black/5 shadow-[0_15px_40px_rgba(0,0,0,0.06)] group-hover:shadow-[0_25px_60px_rgba(0,0,0,0.15)] transition-shadow duration-500"
+                        key={project.slug}
+                        initial={{ opacity: 0, scale: 0.85, rotate: -4, clipPath: "inset(50% 0 50% 0)" }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0, clipPath: "inset(0% 0 0% 0)" }}
+                        exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.25 } }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="relative ml-8 -mt-36 aspect-[4/3] w-[24rem] overflow-hidden rounded-sm shadow-[0_40px_80px_rgba(0,0,0,0.6)]"
                     >
-                        {project.image && (
-                            <Image src={getProxiedImage(project.image)} alt={project.title} fill className="object-cover object-top transition-transform duration-700 group-hover:scale-110" />
-                        )}
+                        <ProjectVisual project={project} sizes="384px" />
                     </motion.div>
-
-                    {/* Text layered below */}
-                    <motion.div style={{ transform: "translateZ(20px)" }}>
-                        <h3 className="text-xl lg:text-2xl font-bold text-[#18181B] mb-3 tracking-tight uppercase">
-                            {project.title}
-                        </h3>
-                        <p className="text-[#71717A] text-sm md:text-base mb-6 leading-relaxed font-medium">
-                            {project.description}
-                        </p>
-                    </motion.div>
-
-                    {/* Floating Tags layered high */}
-                    {showTags && (
-                        <motion.div style={{ transform: "translateZ(30px)" }} className="mt-auto flex flex-wrap items-center gap-3">
-                            {project.tags.map((tag: string) => (
-                                <div key={tag} className="group/icon relative flex items-center justify-center w-10 h-10 rounded-full bg-[#FAFAFA] border border-black/5 hover:border-black/20 hover:bg-white hover:scale-110 hover:shadow-md transition-all cursor-help">
-                                    {getTagIcon(tag)}
-                                    <span className="absolute -bottom-8 opacity-0 group-hover/icon:opacity-100 text-[10px] uppercase font-bold tracking-widest text-white bg-black px-2 py-1 rounded transition-opacity duration-300 pointer-events-none whitespace-nowrap z-20 shadow-xl">
-                                        {tag}
-                                    </span>
-                                </div>
-                            ))}
-                        </motion.div>
-                    )}
-                </motion.div>
-            </Link>
-        </AnimatedSection>
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
-};
+}
 
-export function Projects({ projects = [] }: { projects?: any[] }) {
+export function ProjectRow({ project, index, onHover }: { project: Project; index: number; onHover?: (p: Project | null) => void }) {
     return (
-        <section id="projects" className="min-h-[100dvh] w-full flex flex-col justify-center relative bg-white border-t border-black/5 snap-start snap-always py-24 md:py-0">
-            <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">
-                <AnimatedSection>
-                    <div className="mb-10 lg:mb-14 text-center">
-                        <h2 className="text-[3.5rem] sm:text-[4.5rem] lg:text-[6rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8]">
-                            SELECTED
-                            <br />
-                            <span className={`text-[3rem] sm:text-[3.5rem] lg:text-[5rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>works.</span>
-                        </h2>
-                    </div>
-                </AnimatedSection>
+        <Reveal delay={Math.min(index, 6) * 0.05}>
+            <Link
+                href={`/projects/${project.slug}`}
+                data-cursor="View"
+                onPointerEnter={() => onHover?.(project)}
+                onPointerLeave={() => onHover?.(null)}
+                className="group relative grid grid-cols-12 items-baseline gap-4 border-b border-line py-7 md:py-9"
+            >
+                {/* Amber wash that rises on hover */}
+                <span className="absolute inset-0 origin-bottom scale-y-0 bg-amber/[0.06] transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-y-100" />
+                <span className="eyebrow relative col-span-2 md:col-span-1">{String(index + 1).padStart(2, "0")}</span>
+                <h3 className="display relative col-span-10 text-[11vw] leading-[0.95] transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-4 md:col-span-6 md:text-[4.4vw]">
+                    <span className="transition-colors duration-500 group-hover:text-amber">{project.title}</span>
+                </h3>
+                <span className="relative col-span-6 col-start-3 text-sm text-bone-dim md:col-span-3 md:col-start-auto">
+                    {project.tags.slice(0, 3).join(" · ")}
+                </span>
+                <span className="eyebrow relative col-span-4 flex items-center justify-end gap-3 md:col-span-2">
+                    {project.category}
+                    <svg className="h-4 w-4 -rotate-45 transition-transform duration-500 group-hover:rotate-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                </span>
+            </Link>
+        </Reveal>
+    );
+}
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-                    {projects.map((project, index) => (
-                        <ProjectCard key={project.title} project={project} index={index} showTags={false} />
+export function Projects({ projects }: { projects: Project[] }) {
+    const [hovered, setHovered] = useState<Project | null>(null);
+
+    return (
+        <section id="work" data-gl-from="2" data-gl-dim="0.3" className="relative px-5 py-32 md:px-10 md:py-44">
+            <div className="mx-auto max-w-[1600px]">
+                <div className="mb-16 flex flex-wrap items-end justify-between gap-8 md:mb-24">
+                    <div>
+                        <span className="eyebrow mb-6 block">(03) Selected work</span>
+                        <SplitReveal as="h2" text="Things I’ve shipped" className="display text-[14vw] md:text-[8vw]" />
+                    </div>
+                    <Reveal className="max-w-sm text-bone-dim">
+                        AI products, platforms and the projects that taught me how to deliver them, from LIMS and fintech to retrieval-augmented support tools.
+                    </Reveal>
+                </div>
+
+                <Rule />
+                <div>
+                    {projects.map((p, i) => (
+                        <ProjectRow key={p.slug} project={p} index={i} onHover={setHovered} />
                     ))}
                 </div>
 
-                <AnimatedSection delayMs={500}>
-                    <div className="mt-12 text-center">
-                        <Link href="/projects" className="inline-flex items-center gap-3 bg-[#18181B] border border-transparent text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm shadow-[0_10px_30px_rgba(24,24,27,0.15)] hover:scale-[1.03] hover:bg-white hover:text-[#18181B] hover:border-[#18181B] transition-all duration-300">
-                            View All Projects
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                        </Link>
-                    </div>
-                </AnimatedSection>
+                <Reveal className="mt-16 flex justify-center">
+                    <Link href="/projects" data-cursor="Open" className="group inline-flex items-center gap-5 text-bone">
+                        <span className="display-italic text-4xl transition-colors group-hover:text-amber md:text-5xl">Full archive</span>
+                        <span className="grid h-14 w-14 place-items-center rounded-full border border-line transition-colors group-hover:border-amber group-hover:bg-amber group-hover:text-ink">
+                            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                <path d="M5 12h14M13 6l6 6-6 6" />
+                            </svg>
+                        </span>
+                    </Link>
+                </Reveal>
             </div>
+            <HoverPreview project={hovered} />
         </section>
     );
 }

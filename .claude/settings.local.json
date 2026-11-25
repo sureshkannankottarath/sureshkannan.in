@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(timeout 120 npx tsc --noEmit)",
+      "Bash(timeout 120 npx eslint src)",
+      "Bash(git rm *)",
+      "Bash(python3 -)",
+      "Bash(npx tsc *)",
+      "Bash(npx eslint *)",
+      "Bash(timeout 300 npx next build)"
+    ]
+  }
+}

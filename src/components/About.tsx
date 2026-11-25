@@ -1,109 +1,85 @@
 "use client";
 
-import { AnimatedSection } from "./ui/AnimatedSection";
-import { Cormorant_Garamond } from "next/font/google";
-import { useRef } from "react";
-import { motion } from "framer-motion";
-import {
-    SiPython,
-    SiFastapi,
-    SiReact,
-    SiNextdotjs,
-    SiOpenai,
-    SiNodedotjs,
-    SiDocker,
-    SiVercel,
-    SiPostgresql
-} from "react-icons/si";
-import { FaDatabase, FaLink } from "react-icons/fa6";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, useInView, type MotionValue } from "framer-motion";
+import { Reveal, Rule } from "./ui/Reveal";
+import { stats, education } from "@/data/profile";
 
-const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
+const MANIFESTO =
+    "Great products rarely start clear. They start as noise: half-formed ideas, competing priorities, a deadline. For 8+ years I've led the teams that turn that noise into structure, and structure into software people rely on. Now I do it with AI, where the noise is louder and the opportunity bigger.";
 
-const skillCategories = [
-    {
-        title: "AI & Search",
-        skills: [
-            { name: "Python", Icon: SiPython, color: "#3776AB" },
-            { name: "OpenAI", Icon: SiOpenai, color: "#412991" },
-            { name: "LangChain", Icon: FaLink, color: "#111111" },
-            { name: "ChromaDB", Icon: FaDatabase, color: "#FF5733" },
-        ]
-    },
-    {
-        title: "Full Stack",
-        skills: [
-            { name: "React", Icon: SiReact, color: "#61DAFB" },
-            { name: "Next.js", Icon: SiNextdotjs, color: "#000000" },
-            { name: "FastAPI", Icon: SiFastapi, color: "#009688" },
-            { name: "Node.js", Icon: SiNodedotjs, color: "#43853D" },
-        ]
-    },
-    {
-        title: "Cloud & Dev",
-        skills: [
-            { name: "PostgreSQL", Icon: SiPostgresql, color: "#336791" },
-            { name: "Docker", Icon: SiDocker, color: "#2496ED" },
-            { name: "Vercel", Icon: SiVercel, color: "#000000" }
-        ]
-    }
-];
+// Words light up one by one as the paragraph scrolls through the viewport
+function Word({ word, progress, range }: { word: string; progress: MotionValue<number>; range: [number, number] }) {
+    const opacity = useTransform(progress, range, [0.14, 1]);
+    const highlight = /noise|structure|software|AI/.test(word);
+    return (
+        <motion.span style={{ opacity }} className={highlight ? "display-italic text-amber" : ""}>
+            {word}{" "}
+        </motion.span>
+    );
+}
+
+function Counter({ value, suffix }: { value: number; suffix: string }) {
+    const ref = useRef<HTMLSpanElement>(null);
+    const inView = useInView(ref, { once: true, margin: "-20% 0px" });
+    const [n, setN] = useState(0);
+
+    useEffect(() => {
+        if (!inView) return;
+        let frame = 0;
+        const start = performance.now();
+        const step = (now: number) => {
+            const t = Math.min((now - start) / 1600, 1);
+            setN(Math.round(value * (1 - Math.pow(1 - t, 4))));
+            if (t < 1) frame = requestAnimationFrame(step);
+        };
+        frame = requestAnimationFrame(step);
+        return () => cancelAnimationFrame(frame);
+    }, [inView, value]);
+
+    return (
+        <span ref={ref}>
+            {String(n).padStart(2, "0")}
+            <span className="text-amber">{suffix}</span>
+        </span>
+    );
+}
 
 export function About() {
-    return (
-        <section id="about" className="min-h-[100dvh] w-full flex flex-col justify-center relative bg-[#FAFAFA] border-t border-black/5 snap-start snap-always py-24 md:py-0 overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex flex-col md:flex-row gap-16 md:gap-24 items-start">
+    const textRef = useRef<HTMLParagraphElement>(null);
+    const { scrollYProgress } = useScroll({ target: textRef, offset: ["start 0.85", "end 0.45"] });
+    const words = MANIFESTO.split(" ");
 
-                {/* Left Column: Huge Editorial Header */}
-                <div className="w-full md:w-1/3">
-                    <AnimatedSection>
-                        <h2 className="text-[4rem] sm:text-[5rem] lg:text-[7rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-4">
-                            ABOUT
-                            <br />
-                            <span className={`text-[3.5rem] sm:text-[4rem] lg:text-[6rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>me.</span>
-                        </h2>
-                    </AnimatedSection>
+    return (
+        <section id="manifesto" data-gl-from="0" data-gl-dim="0.45" className="relative px-5 py-32 md:px-10 md:py-48">
+            <div className="mx-auto max-w-[1600px]">
+                <div className="mb-14 grid gap-6 md:grid-cols-12">
+                    <span className="eyebrow md:col-span-3">(01) Manifesto</span>
                 </div>
 
-                {/* Right Column: Content */}
-                <div className="w-full md:w-2/3">
-                    <AnimatedSection delayMs={100}>
-                        <div className="space-y-8 text-xl md:text-3xl text-[#18181B] leading-tight font-medium font-sans">
-                            <p>
-                                I am an <span className="font-black">R&D Lead – AI & Automation at Bobcares</span>, with 8+ years of experience bridging the gap between intelligent automation and scalable digital solutions.
-                            </p>
-                            <p className="text-[#71717A]">
-                                I specialize in <span className="font-semibold text-[#18181B]">AI/ML integrations</span> and translating complex business challenges into high-impact architectures, driving continuous optimization with my teams.
-                            </p>
-                        </div>
-                    </AnimatedSection>
+                <p ref={textRef} className="display text-[9vw] leading-[1.02] tracking-[-0.03em] md:col-span-10 md:text-[4.6vw]">
+                    {words.map((w, i) => (
+                        <Word key={i} word={w} progress={scrollYProgress} range={[i / words.length, (i + 1) / words.length]} />
+                    ))}
+                </p>
 
-                    <AnimatedSection delayMs={200}>
-                        <div className="pt-12 mt-12 border-t border-black/10">
-                            <h3 className="text-sm font-bold text-[#18181B] uppercase tracking-wider mb-8">Core Arsenal</h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                                {skillCategories.map((category) => (
-                                    <div key={category.title} className="flex flex-col gap-4">
-                                        <span className="text-xs font-black uppercase text-[#71717A] tracking-widest border-b border-black/5 pb-2">
-                                            {category.title}
-                                        </span>
-                                        <div className="grid grid-cols-2 gap-3">
-                                            {category.skills.map((skill) => (
-                                                <div
-                                                    key={skill.name}
-                                                    className="group flex flex-col items-center justify-center gap-3 p-4 rounded-xl border border-black/5 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-black/10 hover:-translate-y-1 transition-all duration-300"
-                                                >
-                                                    <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#18181B] group-hover:text-black transition-colors text-center leading-tight">
-                                                        {skill.name}
-                                                    </span>
-                                                    <skill.Icon style={{ color: skill.color }} className="w-7 h-7 sm:w-8 sm:h-8 transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </AnimatedSection>
+                <Rule className="mt-24" />
+                <div className="grid grid-cols-1 gap-10 pt-10 sm:grid-cols-2 lg:grid-cols-4">
+                    {stats.map((s, i) => (
+                        <Reveal key={s.label} delay={i * 0.1} className="flex flex-col gap-3">
+                            <span className="display text-7xl text-bone md:text-8xl">
+                                <Counter value={s.value} suffix={s.suffix} />
+                            </span>
+                            <span className="eyebrow">{s.label}</span>
+                        </Reveal>
+                    ))}
+                    <Reveal delay={0.3} className="flex flex-col justify-end gap-2 border-l border-line pl-6">
+                        <span className="eyebrow">Education</span>
+                        <span className="text-bone">{education.degree}</span>
+                        <span className="text-sm text-bone-dim">
+                            {education.school}, {education.years}
+                        </span>
+                    </Reveal>
                 </div>
             </div>
         </section>

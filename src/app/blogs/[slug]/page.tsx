@@ -1,89 +1,76 @@
-import { Nav } from "@/components/Nav";
-import { Contact } from "@/components/Contact";
-import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Image from "next/image";
-import { Cormorant_Garamond } from "next/font/google";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Shell } from "@/components/site/Shell";
+import { SplitReveal, Reveal, Rule } from "@/components/ui/Reveal";
 import { getProxiedImage } from "@/lib/image";
-import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { createClient } from '@/lib/supabase/server'
-import { createBrowserClient } from '@supabase/ssr'
-import React from "react";
-
-const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
+import { createPublicClient, type Blog } from "@/lib/supabase/public";
 
 export const revalidate = 60; // ISR cache
 
-export async function generateStaticParams() {
-    const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
-    const { data: blogs } = await supabase.from('blogs').select('slug')
+type Props = { params: Promise<{ slug: string }> };
 
-    return (blogs || []).map((blog) => ({
-        slug: blog.slug,
-    }))
+async function getBlog(slug: string) {
+    const supabase = createPublicClient();
+    const { data } = await supabase.from("blogs").select("*").eq("slug", slug).single();
+    return data as Blog | null;
 }
 
-export default async function BlogPage(props: { params: Promise<{ slug: string }> }) {
-    const params = await props.params
-    const supabase = await createClient()
+export async function generateStaticParams() {
+    const supabase = createPublicClient();
+    const { data: blogs } = await supabase.from("blogs").select("slug");
+    return (blogs || []).map((blog) => ({ slug: blog.slug }));
+}
 
-    const { data: blog } = await supabase.from('blogs').select('*').eq('slug', params.slug).single()
+export async function generateMetadata(props: Props): Promise<Metadata> {
+    const { slug } = await props.params;
+    const blog = await getBlog(slug);
+    if (!blog) return {};
+    return { title: `${blog.title} | Suresh Kannan`, description: blog.content?.slice(0, 160) };
+}
 
-    if (!blog) {
-        notFound();
-    }
+export default async function BlogPage(props: Props) {
+    const { slug } = await props.params;
+    const blog = await getBlog(slug);
+    if (!blog) notFound();
 
-    const titleWords = blog.title.split(' ');
-    const firstWord = titleWords[0];
-    const restOfTitle = titleWords.slice(1).join(' ');
+    const date = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "long", year: "numeric" }).format(new Date(blog.created_at));
+    const paragraphs = (blog.content ?? "").split("\n").filter((p) => p.trim());
 
     return (
-        <main id="main-scroll" className="h-[100dvh] w-full overflow-y-auto overflow-x-hidden scroll-smooth bg-[#FAFAFA] text-[#18181B] selection:bg-black/10 selection:text-black">
-            <Nav />
-            <section className="min-h-[100dvh] w-full pt-32 pb-24 md:pt-48 md:pb-32 bg-[#FAFAFA] relative">
-                <div className="max-w-4xl mx-auto px-6 lg:px-12 w-full flex flex-col items-center">
-
-                    <AnimatedSection className="w-full flex justify-start">
-                        <Link href="/blogs" className="inline-flex items-center gap-2 text-xs md:text-sm font-bold uppercase tracking-widest text-[#71717A] hover:text-[#18181B] transition-colors mb-12 group">
-                            <svg className="w-4 h-4 md:w-5 md:h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" /></svg>
-                            Back to Journal
+        <Shell>
+            <article data-gl-from="0" data-gl-dim="0.25" className="relative px-5 pb-24 pt-36 md:px-10 md:pt-48">
+                <div className="mx-auto max-w-[1100px]">
+                    <Reveal>
+                        <Link href="/blogs" className="eyebrow inline-flex items-center gap-3 transition-colors hover:!text-amber">
+                            <span aria-hidden>←</span> Journal
                         </Link>
-                    </AnimatedSection>
-
-                    <AnimatedSection delayMs={100} className="w-full">
-                        <p className="text-xs font-bold uppercase tracking-widest text-[#71717A] mb-4">{new Date(blog.created_at).toLocaleDateString()}</p>
-                        <h1 className="text-[2.5rem] sm:text-[3.5rem] lg:text-[4.5rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.9] mb-12 break-words">
-                            {firstWord}
-                            {restOfTitle && <br />}
-                            {restOfTitle && (
-                                <span className={`text-[2rem] sm:text-[2.5rem] lg:text-[3.5rem] font-light lowercase text-[#71717A] tracking-normal ${cormorant.className}`}>
-                                    {restOfTitle}
-                                </span>
-                            )}
-                        </h1>
-                    </AnimatedSection>
+                    </Reveal>
+                    <Reveal delay={0.1} className="eyebrow mt-10">
+                        {date}
+                    </Reveal>
+                    <SplitReveal as="h1" text={blog.title} immediate className="display mt-6 block text-[12vw] leading-[0.92] md:text-[6vw]" />
+                    <Rule className="mt-12" />
 
                     {blog.image && (
-                        <AnimatedSection delayMs={200} className="w-full relative aspect-[21/9] rounded-2xl md:rounded-[2rem] overflow-hidden mb-16 shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-black/5 bg-white">
-                            <Image src={getProxiedImage(blog.image)} alt={blog.title} fill className="object-cover object-center" priority />
-                        </AnimatedSection>
+                        <Reveal delay={0.15} className="relative mt-12 aspect-[21/9] overflow-hidden rounded-sm bg-ink-3">
+                            <Image src={getProxiedImage(blog.image)} alt={blog.title} fill sizes="(max-width: 1100px) 100vw, 1100px" className="object-cover" priority />
+                        </Reveal>
                     )}
 
-                    <AnimatedSection delayMs={300} className="w-full">
-                        <div className="text-lg md:text-xl text-[#18181B] leading-relaxed font-medium">
-                            {blog.content.split('\n').map((paragraph: string, i: number) => (
-                                <p key={i} className="mb-6">{paragraph}</p>
-                            ))}
-                        </div>
-                    </AnimatedSection>
+                    <div className="mx-auto mt-16 max-w-[68ch]">
+                        {paragraphs.map((paragraph, i) => (
+                            <p
+                                key={i}
+                                className={`mb-7 text-lg leading-[1.75] text-bone/90 md:text-xl ${i === 0 ? "first-letter:float-left first-letter:mr-3 first-letter:font-[family-name:var(--font-display)] first-letter:text-7xl first-letter:leading-[0.8] first-letter:text-amber" : ""}`}
+                            >
+                                {paragraph}
+                            </p>
+                        ))}
+                    </div>
                 </div>
-            </section>
-
-            <div className="w-full border-t border-black/5 bg-white"></div>
-            <Contact />
-        </main>
+            </article>
+        </Shell>
     );
 }

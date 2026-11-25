@@ -1,142 +1,198 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Cormorant_Garamond } from "next/font/google";
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
-import { AnimatedSection } from "./ui/AnimatedSection";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { INTRO_DONE_EVENT, isIntroDone } from "./site/Preloader";
+import { PORTRAIT_SRC, TAP_HOLD_MS } from "./gl/ParticleField";
+import { profile } from "@/data/profile";
 
-const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-// Splitting text to animate per character
-const SplitText = ({ text, className, delayParams = 0 }: { text: string, className?: string, delayParams?: number }) => {
+// Intrinsic size of the portrait PNG; keeps the lens and the particles aligned
+const PORTRAIT_ASPECT = 682 / 1024;
+const LENS_RADIUS = 110;
+
+function useIntroDone() {
+    const [done, setDone] = useState(false);
+    useEffect(() => {
+        if (isIntroDone()) {
+            // Arrived after the intro already finished (client navigation)
+            const id = requestAnimationFrame(() => setDone(true));
+            return () => cancelAnimationFrame(id);
+        }
+        const onDone = () => setDone(true);
+        window.addEventListener(INTRO_DONE_EVENT, onDone);
+        return () => window.removeEventListener(INTRO_DONE_EVENT, onDone);
+    }, []);
+    return done;
+}
+
+function Line({ children, show, delay, className = "" }: { children: React.ReactNode; show: boolean; delay: number; className?: string }) {
     return (
-        <motion.span
-            initial="hidden"
-            animate="visible"
-            variants={{
-                hidden: { opacity: 0 },
-                visible: {
-                    opacity: 1,
-                    transition: { staggerChildren: 0.05, delayChildren: delayParams }
-                }
-            }}
-            className={className}
-        >
-            {text.split("").map((char, index) => (
-                <motion.span
-                    key={index}
-                    variants={{
-                        hidden: { opacity: 0, y: 70, rotateX: -90, scale: 0.8 },
-                        visible: { opacity: 1, y: 0, rotateX: 0, scale: 1, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
-                    }}
-                    style={{ display: "inline-block", transformOrigin: "bottom" }}
-                >
-                    {char === " " ? "\u00A0" : char}
-                </motion.span>
-            ))}
-        </motion.span>
+        <span className={`block overflow-hidden ${className}`}>
+            <motion.span
+                className="block"
+                initial={{ y: "105%" }}
+                animate={show ? { y: "0%" } : undefined}
+                transition={{ duration: 1.4, ease: EASE, delay }}
+            >
+                {children}
+            </motion.span>
+        </span>
     );
-};
+}
 
-export function Hero() {
-    const [mounted, setMounted] = useState(false);
-
-    // Parallax logic setup
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-    const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-        const { clientX, clientY } = e;
-        const targetX = clientX - window.innerWidth / 2;
-        const targetY = clientY - window.innerHeight / 2;
-        mouseX.set(targetX);
-        mouseY.set(targetY);
-    };
-
-    const imageX = useTransform(springX, [-1000, 1000], [30, -30]);
-    // Intentionally omitting imageY: moving the image vertically reveals the cut-off bottom edge.
-
-    const textLayerX = useTransform(springX, [-1000, 1000], [-30, 30]);
-    const textLayerY = useTransform(springY, [-1000, 1000], [-30, 30]);
-
-    const { scrollY } = useScroll();
-    const bgOpacity = useTransform(scrollY, [0, 500], [1, 0]);
+/*
+ * The portrait itself is drawn by the particle field (it reads this box's position).
+ * This layer holds the real photo, masked to a small lens that follows the cursor,
+ * so hovering any part of the particle portrait reveals the photo underneath.
+ */
+function PortraitLens() {
+    const boxRef = useRef<HTMLDivElement>(null);
+    const photoRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setMounted(true);
+        const box = boxRef.current!;
+        const photo = photoRef.current!;
+        let tapTimer = 0;
+        const place = (e: PointerEvent) => {
+            const r = box.getBoundingClientRect();
+            const w = Math.min(r.width, r.height * PORTRAIT_ASPECT);
+            const h = w / PORTRAIT_ASPECT;
+            const left = r.left + (r.width - w) / 2;
+            photo.style.setProperty("--lx", `${e.clientX - r.left}px`);
+            photo.style.setProperty("--ly", `${e.clientY - r.top}px`);
+            return e.clientX >= left && e.clientX <= left + w && e.clientY >= r.bottom - h && e.clientY <= r.bottom;
+        };
+        const onMove = (e: PointerEvent) => {
+            if (e.pointerType !== "mouse") return;
+            photo.dataset.lens = place(e) ? "on" : "off";
+        };
+        // Touch: a tap on the portrait opens the lens there for a moment
+        const onDown = (e: PointerEvent) => {
+            if (e.pointerType === "mouse" || !place(e)) return;
+            photo.dataset.lens = "on";
+            window.clearTimeout(tapTimer);
+            tapTimer = window.setTimeout(() => (photo.dataset.lens = "off"), TAP_HOLD_MS);
+        };
+        window.addEventListener("pointermove", onMove, { passive: true });
+        window.addEventListener("pointerdown", onDown, { passive: true });
+        return () => {
+            window.removeEventListener("pointermove", onMove);
+            window.removeEventListener("pointerdown", onDown);
+            window.clearTimeout(tapTimer);
+        };
     }, []);
 
-    if (!mounted) return <section className="min-h-[100dvh] bg-[#FAFAFA] snap-start" />;
+    return (
+        <div ref={boxRef} data-gl-portrait-box data-gl-portrait-aspect={PORTRAIT_ASPECT} data-gl-lens={LENS_RADIUS} className="absolute inset-0">
+            <div ref={photoRef} data-lens="off" className="portrait-lens absolute inset-0" style={{ ["--lens" as string]: `${LENS_RADIUS}px` }}>
+                <Image
+                    src={PORTRAIT_SRC}
+                    alt="Portrait of Suresh Kannan"
+                    fill
+                    priority
+                    quality={90}
+                    sizes="(max-width: 768px) 90vw, 40vw"
+                    className="object-contain object-bottom [filter:saturate(0.85)_contrast(1.05)_brightness(0.92)_sepia(0.1)]"
+                />
+            </div>
+        </div>
+    );
+}
+
+export function Hero() {
+    const ref = useRef<HTMLElement>(null);
+    const show = useIntroDone();
+    const reduce = useReducedMotion();
+
+    const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+    const portraitY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "12%"]);
+    const nameY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "-25%"]);
+    const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+    const intro = (
+        <>
+            I turn ambiguous ideas into <em className="display-italic text-amber">shipped software</em>. Right now I lead the AI &amp; R&amp;D team at Poornam Info Vision.
+        </>
+    );
 
     return (
         <section
-            onMouseMove={handleMouseMove}
-            className="relative w-full min-h-[100dvh] flex items-center justify-center overflow-hidden pt-20 px-4 md:px-8 snap-start snap-always"
+            ref={ref}
+            data-gl-from="0"
+            data-gl-x="0"
+            data-gl-dim="1"
+            data-gl-portrait="1"
+            className="relative flex min-h-[100svh] flex-col overflow-hidden px-5 pb-8 pt-28 md:px-10"
         >
             <motion.div
-                className="absolute inset-0 pointer-events-none"
-                style={{ background: 'radial-gradient(ellipse at center, #BAE6FD 0%, #FAFAFA 60%, #FAFAFA 100%)', opacity: bgOpacity }}
-            />
+                className="eyebrow relative z-30 flex flex-wrap justify-between gap-4"
+                initial={{ opacity: 0 }}
+                animate={show ? { opacity: 1 } : undefined}
+                transition={{ duration: 1, delay: 0.6 }}
+            >
+                <span>
+                    {profile.role} · {profile.focus}
+                </span>
+                <span>Based in {profile.location.replace(", Kerala", "")}</span>
+            </motion.div>
 
-            {/* Stable Layout Wrapper */}
-            <div className="relative w-full max-w-[1400px] h-[100dvh] md:h-[850px] mx-auto flex-shrink-0">
+            <div className="relative grid flex-1 grid-cols-1 md:grid-cols-12">
+                {/* Name and intro on the left */}
+                <div className="relative z-20 flex flex-col justify-start pt-[5svh] md:col-span-7 md:justify-between md:pt-[9svh]">
+                    <motion.h1 style={{ y: nameY, opacity: fade }} className="display select-none text-[23vw] leading-[0.82] md:text-[12.5vw]">
+                        <Line show={show} delay={0.1} className="text-bone">
+                            Suresh
+                        </Line>
+                        <Line show={show} delay={0.22} className="pl-[8vw] md:pl-[5vw]">
+                            <span className="display-italic text-amber">Kannan</span>
+                        </Line>
+                    </motion.h1>
 
-                {/* Top Text: "Hey, there" */}
-                <motion.div style={{ x: textLayerX, y: textLayerY }} className="absolute top-[60px] sm:top-[120px] md:top-[160px] w-full flex justify-center items-center gap-6 md:gap-[120px] lg:gap-[200px] z-0 pointer-events-none">
-                    <SplitText delayParams={0.2} text="Hey," className={`text-[25vw] sm:text-[8rem] lg:text-[11rem] text-[#18181B] transform -rotate-2 inline-block tracking-tighter leading-none ${cormorant.className} font-light drop-shadow-sm`} />
-                    <SplitText delayParams={0.4} text="there" className={`text-[25vw] sm:text-[8rem] lg:text-[11rem] text-[#18181B] transform -rotate-1 inline-block tracking-tighter leading-none ${cormorant.className} font-light drop-shadow-sm`} />
-                </motion.div>
-
-                {/* Central Portrait Image - Scaled natively for maximum sharpness */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.85, y: 150 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ duration: 1.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ x: imageX }}
-                    className="absolute left-1/2 bottom-0 -translate-x-1/2 z-10 w-[150%] md:w-[1040px] lg:w-[1300px] h-[80%] md:h-[1000px] pointer-events-none origin-bottom"
-                >
-                    <Image
-                        src="/images/latest_me.png"
-                        alt="Suresh Kannan K"
-                        fill
-                        priority
-                        quality={100}
-                        sizes="(max-width: 768px) 150vw, (max-width: 1200px) 1040px, 1400px"
-                        className="object-contain object-bottom"
-                    />
-                </motion.div>
-
-                {/* Bottom White Fog Gradient - Strengthened to completely dissolve the bottom edge */}
-                <div className="absolute -bottom-2 left-0 right-0 h-48 md:h-72 bg-gradient-to-t from-[#FAFAFA] from-20% via-[#FAFAFA]/80 to-transparent z-[15] pointer-events-none" />
-
-                {/* Middle Floating Overlays */}
-                <div className="hidden md:flex absolute top-[500px] w-full px-4 md:px-12 flex-col items-end z-20 pointer-events-none">
-                    <AnimatedSection delayMs={1200} className="max-w-[260px] md:max-w-[320px] text-right pointer-events-auto">
-                        <p className="text-xs md:text-sm font-semibold text-[#18181B] leading-snug font-sans opacity-90 drop-shadow-sm bg-white/30 backdrop-blur-sm p-4 rounded-xl border border-white/50">
-                            R&D Lead – AI & Automation <br className="hidden md:block" />
-                            at Bobcares, crafting intelligent <br className="hidden md:block" />
-                            automation platforms & AI solutions.
-                        </p>
-                    </AnimatedSection>
+                    <div className="hidden md:block">
+                        <motion.p
+                            className="max-w-md text-lg leading-snug text-bone"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={show ? { opacity: 1, y: 0 } : undefined}
+                            transition={{ duration: 1.2, ease: EASE, delay: 0.8 }}
+                        >
+                            {intro}
+                        </motion.p>
+                        <ScrollCue show={show} className="mt-10" />
+                    </div>
                 </div>
 
-                <motion.div style={{ x: textLayerX, y: textLayerY }} className="absolute bottom-24 md:bottom-12 w-full flex flex-col md:flex-row justify-between items-end z-20 pointer-events-none px-4 md:px-0">
-                    <div className="text-left font-sans font-black tracking-tighter leading-[0.8] text-[#18181B] flex flex-col">
-                        <SplitText delayParams={0.8} text="I AM" className="text-[15vw] md:text-[6.5rem] lg:text-[9rem] uppercase drop-shadow-lg" />
-                        <SplitText delayParams={1.0} text="SURESH" className="text-[15vw] md:text-[6.5rem] lg:text-[9rem] uppercase drop-shadow-lg" />
-                    </div>
-
-                    <div className="text-right font-sans font-black tracking-tighter leading-[0.8] text-[#18181B] mt-6 md:mt-0 pb-1 md:pb-3 flex flex-col">
-                        <SplitText delayParams={1.2} text="R&D LEAD" className="text-[8vw] md:text-[4rem] lg:text-[5.5rem] uppercase drop-shadow-lg" />
-                        <SplitText delayParams={1.4} text="AI & AUTOMATION" className="text-[8vw] md:text-[3.3rem] lg:text-[4.7rem] uppercase drop-shadow-lg" />
+                {/* Particle portrait on the right (under the name on phones) */}
+                <motion.div style={{ y: portraitY }} className="relative min-h-[46svh] md:col-span-5">
+                    <div className="absolute inset-x-0 bottom-[-2rem] top-0 md:-top-16 md:bottom-[-2.5rem]">
+                        <PortraitLens />
                     </div>
                 </motion.div>
             </div>
+
+            <span className="eyebrow relative z-30 mt-6 text-center [@media(pointer:fine)]:hidden">Tap the portrait to look closer</span>
+            <p className="relative z-30 mt-6 text-base leading-snug text-bone md:hidden">{intro}</p>
         </section>
     );
 }
 
+function ScrollCue({ show, className = "" }: { show: boolean; className?: string }) {
+    return (
+        <motion.a
+            href="#manifesto"
+            data-cursor="Scroll"
+            className={`eyebrow group flex items-center gap-4 ${className}`}
+            initial={{ opacity: 0 }}
+            animate={show ? { opacity: 1 } : undefined}
+            transition={{ duration: 1, delay: 1 }}
+        >
+            <span className="relative block h-10 w-px overflow-hidden bg-line">
+                <span className="absolute inset-x-0 top-0 h-1/2 animate-[scrollcue_2s_ease-in-out_infinite] bg-amber" />
+            </span>
+            Scroll to bring order
+            <style>{`@keyframes scrollcue{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`}</style>
+        </motion.a>
+    );
+}

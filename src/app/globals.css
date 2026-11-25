@@ -1,108 +1,155 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-primary: #FAFAFA;
-  --color-bg-secondary: #F4F4F5;
-  --color-accent-blue: #0A84FF;
-  --color-accent-green: #5E5CE6;
-  --color-text-primary: #18181B;
-  --color-text-muted: #71717A;
-  --font-syne: var(--font-inter);
-  --font-sans: var(--font-inter);
+  --color-ink: #0D0A07;
+  --color-ink-2: #16110C;
+  --color-ink-3: #211A12;
+  --color-bone: #F2E8D5;
+  --color-bone-dim: #A79C88;
+  --color-mute: #6E6455;
+  --color-amber: #E8A23A;
+  --color-ember: #D2542A;
+  --color-line: rgba(242, 232, 213, 0.12);
+
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
-  :root {
-    --bg-primary: #FAFAFA;
-    --bg-secondary: #F4F4F5;
-    --glass: rgba(0, 0, 0, 0.03);
-    --glass-border: rgba(0, 0, 0, 0.08);
-    --accent-blue: #0A84FF;
-    --accent-green: #5E5CE6;
-    --text-primary: #18181B;
-    --text-muted: #71717A;
+  html {
+    background: var(--color-ink);
+    color-scheme: dark;
   }
 
   body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    scroll-behavior: smooth;
+    background:
+      radial-gradient(120% 80% at 50% -10%, #2A1C0E 0%, transparent 55%),
+      radial-gradient(90% 60% at 100% 110%, #1F1309 0%, transparent 60%),
+      var(--color-ink);
+    background-attachment: fixed;
+    color: var(--color-bone);
+    font-family: var(--font-sans);
     overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-amber);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-amber);
+    outline-offset: 4px;
+  }
+
+  @media (pointer: fine) {
+    html.has-cursor,
+    html.has-cursor * {
+      cursor: none !important;
+    }
   }
 }
 
 @layer utilities {
-  .glass-card {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+  /* Small uppercase meta labels */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-bone-dim);
   }
 
-  .text-glow-blue {
-    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  .display {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 50, "WONK" 0;
+    letter-spacing: -0.035em;
+    line-height: 0.88;
   }
 
-  .text-glow-green {
-    text-shadow: 0 0 20px rgba(0, 255, 179, 0.5);
+  .display-italic {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
   }
 
-  .animate-fade-up {
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(242, 232, 213, 0.45);
   }
 
-  .animate-shimmer {
-    background-size: 200% auto;
-    animation: shimmer 5s linear infinite;
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .animate-particle {
-    animation: particle linear infinite alternate;
-  }
-}
-
-@keyframes particle {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  100% {
-    transform: translate(var(--tx, 100px), var(--ty, 100px));
+  .hairline {
+    background: linear-gradient(90deg, transparent, var(--color-line) 15%, var(--color-line) 85%, transparent);
   }
 }
 
-@keyframes fadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Film grain over everything; very low cost (static SVG noise, animated offset) */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 1.2s steps(6) infinite;
 }
 
-@keyframes shimmer {
-  to {
-    background-position: 200% center;
-  }
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -4%); }
+  60% { transform: translate(-4%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
+/* Hero portrait: the real photo shows only inside a lens around the cursor;
+   everywhere else the particle portrait (WebGL) is what you see */
+@property --lens-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
 
-  50% {
-    transform: translateY(-20px);
-  }
+.portrait-lens {
+  --lens-r: 0px;
+  transition: --lens-r 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-mask-image: radial-gradient(circle var(--lens-r) at var(--lx, -999px) var(--ly, -999px), #000 72%, transparent 100%);
+  mask-image: radial-gradient(circle var(--lens-r) at var(--lx, -999px) var(--ly, -999px), #000 72%, transparent 100%);
+}
 
-  100% {
-    transform: translateY(0px);
+.portrait-lens[data-lens="on"] {
+  --lens-r: var(--lens);
+}
+
+html[data-gl="off"] .portrait-lens {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+/* While the menu is open the particles render above its backdrop */
+html[data-menu="open"] .gl-host {
+  z-index: 41;
+}
+
+@keyframes marquee {
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+.marquee-track {
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+
+.marquee-track[data-reverse] {
+  animation-direction: reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain,
+  .marquee-track {
+    animation: none;
   }
 }

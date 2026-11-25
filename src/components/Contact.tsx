@@ -1,59 +1,94 @@
-import { AnimatedSection } from "./ui/AnimatedSection";
-import { Cormorant_Garamond } from "next/font/google";
-import { FaLinkedinIn, FaGithub, FaPinterestP } from "react-icons/fa6";
+"use client";
 
-const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400"], style: ["italic"] });
+import { useRef, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { profile } from "@/data/profile";
+import { SplitReveal, Reveal, Rule } from "./ui/Reveal";
+import { LocalTime } from "./site/LocalTime";
+
+// Big round button that leans toward the cursor
+function MagneticButton({ href, children }: { href: string; children: React.ReactNode }) {
+    const ref = useRef<HTMLAnchorElement>(null);
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    const sx = useSpring(x, { stiffness: 200, damping: 15 });
+    const sy = useSpring(y, { stiffness: 200, damping: 15 });
+
+    return (
+        <motion.a
+            ref={ref}
+            href={href}
+            data-cursor="Write"
+            style={{ x: sx, y: sy }}
+            onPointerMove={(e) => {
+                const r = ref.current!.getBoundingClientRect();
+                x.set((e.clientX - r.left - r.width / 2) * 0.35);
+                y.set((e.clientY - r.top - r.height / 2) * 0.35);
+            }}
+            onPointerLeave={() => {
+                x.set(0);
+                y.set(0);
+            }}
+            className="group relative grid h-40 w-40 shrink-0 place-items-center overflow-hidden rounded-full bg-amber text-ink md:h-52 md:w-52"
+        >
+            <span className="absolute inset-0 translate-y-full rounded-full bg-bone transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-y-0" />
+            <span className="relative font-mono text-xs uppercase tracking-[0.2em]">{children}</span>
+        </motion.a>
+    );
+}
 
 export function Contact() {
+    const [copied, setCopied] = useState(false);
+
+    const copy = async () => {
+        try {
+            await navigator.clipboard.writeText(profile.email);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch {
+            window.location.href = `mailto:${profile.email}`;
+        }
+    };
+
     return (
-        <footer id="contact" className="min-h-[100dvh] w-full flex flex-col relative border-t border-black/5 overflow-hidden snap-start snap-always" style={{ background: 'radial-gradient(circle at center, #E0F2FE 0%, #FAFAFA 60%)' }}>
+        <footer id="contact" data-gl-from="3" data-gl-x="2.4" data-gl-dim="0.85" className="relative z-10 flex min-h-[100svh] flex-col justify-between px-5 pb-8 pt-32 md:px-10">
+            <div className="mx-auto w-full max-w-[1600px]">
+                <span className="eyebrow mb-10 block">(06) Contact</span>
+                <h2 className="display text-[16vw] leading-[0.85] md:text-[10.5vw]">
+                    <SplitReveal text="Let’s build" className="block" />
+                    <SplitReveal text="what’s next." className="display-italic block text-amber" delay={0.15} />
+                </h2>
 
-            {/* Main Centered Content */}
-            <div className="max-w-4xl mx-auto px-6 lg:px-12 w-full flex-grow flex flex-col justify-center text-center pt-32 pb-16 md:py-0">
-                <AnimatedSection>
-                    <div className="mb-8">
-                        <h2 className="text-[4rem] sm:text-[5.5rem] lg:text-[8rem] font-black uppercase text-[#18181B] tracking-tighter leading-[0.8] mb-5">
-                            LET'S
-                            <br />
-                            <span className={`text-[3.5rem] sm:text-[4.5rem] lg:text-[7rem] font-light lowercase text-transparent bg-clip-text bg-gradient-to-r from-[#71717A] via-[#38BDF8] to-[#18181B] tracking-normal ${cormorant.className}`}>talk.</span>
-                        </h2>
-                    </div>
-                </AnimatedSection>
-
-                <AnimatedSection delayMs={100}>
-                    <p className="text-[#71717A] text-lg md:text-xl md:leading-relaxed font-medium mb-12 max-w-2xl mx-auto">
-                        Building the future isn't a solo endeavor. Let's merge your bold ideas with state-of-the-art architectures, solve complex problems, and engineer systems that inspire the world.
-                    </p>
-                </AnimatedSection>
-
-                <AnimatedSection delayMs={200}>
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                        <a href="mailto:sureshk4.info@gmail.com" className="px-10 py-5 bg-[#18181B] border border-transparent text-white rounded-full font-bold uppercase tracking-widest text-sm shadow-[0_10px_40px_rgba(24,24,27,0.2)] hover:scale-105 hover:bg-white hover:text-[#18181B] hover:border-[#18181B] hover:shadow-[0_15px_40px_rgba(24,24,27,0.3)] transition-all transform duration-300">
-                            Start a Conversation
-                        </a>
-                        <div className="flex items-center gap-4">
-                            <a href="https://www.linkedin.com/in/skk369/" target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-white hover:border-[#0077b5] text-[#18181B] hover:text-[#0077b5] hover:shadow-[0_4px_15px_rgba(0,119,181,0.2)] transition-all duration-300">
-                                <FaLinkedinIn className="w-5 h-5" />
-                            </a>
-                            <a href="https://github.com/sureshkannankottarath" target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-[#18181B] hover:border-[#18181B] text-[#18181B] hover:text-white shadow-sm transition-all duration-300">
-                                <FaGithub className="w-5 h-5" />
-                            </a>
-                            <a href="https://in.pinterest.com/sureshk4info/" target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-white hover:border-[#E60023] text-[#18181B] hover:text-[#E60023] hover:shadow-[0_4px_15px_rgba(230,0,35,0.2)] transition-all duration-300">
-                                <FaPinterestP className="w-5 h-5" />
-                            </a>
-                        </div>
-                    </div>
-                </AnimatedSection>
-            </div>
-
-            {/* Bottom Pinned Footer */}
-            <div className="w-full mt-auto bg-[#FAFAFA]/50 backdrop-blur-md">
-                <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8 flex flex-col md:flex-row justify-between items-center text-xs md:text-sm font-semibold text-[#71717A] uppercase tracking-widest gap-4 md:gap-0">
-                    <p>© 2025 Suresh Kannan.</p>
-                    <p className="opacity-70">Inspired by Technology.</p>
+                <div className="mt-16 flex flex-col items-start gap-12 md:flex-row md:items-center md:justify-between">
+                    <Reveal className="max-w-md">
+                        <p className="text-lg leading-relaxed text-bone-dim md:text-xl">
+                            Have an AI product to ship, a process to automate, or a team that needs a steady hand? I’d love to hear about it.
+                        </p>
+                        <button onClick={copy} data-cursor={copied ? "Copied" : "Copy"} className="group mt-8 flex items-center gap-4 text-left">
+                            <span className="display-italic text-2xl text-bone transition-colors group-hover:text-amber md:text-4xl">{profile.email}</span>
+                            <span className="eyebrow">{copied ? "Copied ✓" : "Copy"}</span>
+                        </button>
+                    </Reveal>
+                    <MagneticButton href={`mailto:${profile.email}`}>Say hello</MagneticButton>
                 </div>
             </div>
 
+            <div className="mx-auto mt-24 w-full max-w-[1600px]">
+                <Rule className="mb-6" />
+                <div className="eyebrow flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <span>© {new Date().getFullYear()} {profile.name}</span>
+                    <span>
+                        {profile.location} · <LocalTime />
+                    </span>
+                    <nav className="flex gap-6">
+                        {profile.socials.map((s) => (
+                            <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="!text-bone transition-colors hover:!text-amber">
+                                {s.label} ↗
+                            </a>
+                        ))}
+                    </nav>
+                </div>
+            </div>
         </footer>
     );
 }
